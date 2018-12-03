@@ -1,0 +1,575 @@
+# Models for Autocorrelation {#ChapMA}
+
+```{css, echo = FALSE}
+caption, .caption{
+  font-style:italic;
+  margin-top:0.5em;
+  margin-bottom:0.5em;
+  width:99%;
+  text-align: left;
+}
+body{
+  font-family: Times-Roman;
+  font-size: 11pt;
+}
+p {line-height: 2em;}
+tr:nth-child(even) {background-color: #f2f2f2;}
+th {
+    background-color: #4CAF50;
+    color: black;
+}
+p {
+padding-bottom: 15px;
+}
+
+```
+
+For stream networks, we originally called our constructions _spatial moving-average models_ because they are analagous to moving average models in time series.  They have also been called process convolution models.  We review moving average models for time series to make the connection clear.
+
+## Discrete Time Series {#DiscreteTS}
+
+We start with the simplest case, and that which is most often used in time series; the discrete case (random variables defined on the set of integers).  Then, we move to the case of continuous time.
+
+### Definition and Construction
+
+Let $W_i$ be a random variable at integer $i$.  A moving average is created by "smoothing," or averaging, the $W_i$.  One approach smoothes the trailing $\theta$ variables, or those that came earlier in time,
+
+\begin{equation}
+Z_i = \frac{1}{\theta}\sum_{i-\theta+1}^i W_i
+(\#eq:tsZidef1)
+\end{equation}
+
+Let's create some random variables from moving averages in **R**, using $\theta = 5$.
+
+```{r, echo = TRUE}
+# set random number seed so reproducible
+set.seed(1001)
+# set number of independent random variables
+N = 20
+# create independent random variables
+W = rnorm(N)
+# set length of moving average
+theta = 5
+# create an empty vector to hold newly created variables
+Z = rep(NA, times = 20 - theta + 1)
+# create moving averages
+for(i in theta:N)
+	Z[i - theta + 1] = mean(W[(i - theta + 1):i])
+```
+
+A plot of both $W_i$ and $Z_i$ is given in Figure \@ref(fig:simpleMAdemo).
+
+```{r, simpleMAdemo, out.width='60%', fig.align = 'center', fig.cap="Creating moving average random variables, $Z_i$ (black circles), by averaging independent random variables, $W_i$ (gray circles)."}
+par(mar = c(5,5,1,1))
+plot(1:N, W, type = 'l', xlab = 'Time Sequence', cex.lab = 2,
+	cex.axis = 1.5, ylab = 'W and Z', col = 'gray')
+points(1:N, W, pch = 19, cex = 3, col = 'gray')
+lines(theta:N, Z, lwd = 2, col = 'black')
+points(theta:N, Z, pch = 19, cex = 3, col = 'black')
+```
+
+Notice that the moving-average random variables, in black, are _autocorrelated_.  By autocorrelated, we mean that when $Z_i$ and $Z_j$ that are closer together, they are generally more similar than if they are farther apart.  Basically, we are taking random variables that are independent, the $W$'s, and, by smoothing them, creating autocorrelation.  The autocorrelation occurs because the constructed random variables, $Z$'s, can share the same underlying $W$'s, and the closer the $Z$'s are, the more $W$'s they have in common.  In **R**, we compute the autocorrelation function for a long time series and compute the empirical autocorrelation function.
+
+```{r, echo = TRUE, out.width='80%', fig.align = 'center'}
+# set random number seed so reproducible
+set.seed(1001)
+# set number of independent random variables
+N = 1000
+# create independent random variables
+W = rnorm(N)
+# set length of moving average
+theta = 5
+# create an empty vector to hold newly created variables
+Z = rep(NA, times = 20 - theta + 1)
+# create moving averages
+for(i in theta:N)
+	Z[i - theta + 1] = mean(W[(i - theta + 1):i])
+plot(acf(W))
+```
+
+```{r, empACFlwsTS, echo = TRUE, out.width='80%', fig.align = 'center', fig.pos = 'h', fig.cap="Empirical autocorrelation function for $\\{Z_i\\}$."}
+plot(acf(Z))
+```
+
+The empirical autocorrelation function shows that autocorrelation drops to zero at distance $\theta$ and beyond because the constructed random variables do not share any $W$'s.
+
+Another way to write \@ref(eq:tsZidef1) is
+
+$$
+Z_i = \sum_{i - \theta + 1}^i \omega_i W_i,
+$$
+
+where $\omega_i$ is the weight $1/\theta$.  More generally, we can think of the weights $\omega_i$ as a function on the integers from $(-\theta + 1)$ to $0$, and $0$ outside of those limits, 
+
+\begin{equation}
+g(j;\theta) = \omega_j \mathcal{I}(-\theta < j \le 0),
+(\#eq:gDefDiscrete)
+\end{equation} 
+
+for $j \in \mathbb{Z}$, where $\mathbb{Z}$ are the integers and $\mathcal{I}(a)$ is the indicator function, equal to 1 if its argument $a$ is true, otherwise it is $0$.  Note that $g(j;\theta)$ is defined on all integers, but $g(j;\theta)$ sets the values to $0$ outside of the range $0$ to $-\theta$, which is convenient because we do not need to specify limits in the following,
+
+\begin{equation} 
+Z_i = \sum_{-\infty}^\infty g(j - i; \theta) W_i.
+(\#eq:tsZidef2)
+\end{equation}
+
+If $\omega_j = 1/\theta$ in $g(j;\theta)$, then \@ref(eq:tsZidef2) is exactly equal to \@ref(eq:tsZidef1).  We write it this way because it will help clarify the connection to continuous time, and ultimately stream networks, in the next few sections.  The function $g(j;\theta)$ can be made quite flexible. Already, $\theta$ is a parameter that controls the range of autocorrelation, but we can allow $\omega_j$ in $g(j;\theta)$ to vary in some way.  Let
+
+\begin{align}
+g_\ell(j;\theta) &= \frac{1}{\theta} \mathcal{I}(-\theta < j \le 0) \\
+g_s(j;\theta) &= \left(1-\frac{|j|}{\theta}\right) \mathcal{I}(-\theta < j \le 0)
+(\#eq:gellandgs)
+\end{align}
+
+Some **R** code to explore is given below, where we implement $g_s(j;\theta)$ in \@ref(eq:gellandgs).
+
+```{r, echo = TRUE}
+# set random number seed so reproducible
+set.seed(1015)
+# moving average function
+g_s = function(j, theta){(1-abs(j)/theta)*(-theta <= j & j <= 0)}
+#set theta
+theta = 10
+# set number of independent random variables
+N = 40
+# create independent random variables
+W = rnorm(N)
+# create autocorrelated random variables Z. Because of trailing weights,
+# (defined only for non-positive j), first Z_i is at theta
+Z = rep(NA, times = N)
+for(i in theta:N)
+	Z[i] = sum(g_s((1:N)-i, theta)*W)
+```
+
+The results are plotted (Figure \@ref(fig:discreteMAF2positions)), which shows the values of $g_s(j-15,\theta); j = 1,\ldots,40$ in the top panel as green circles, and the values of $g_s(j-20,\theta); j = 1,\ldots,40$ as purple circles.  Note the $j-i$ argument defines $Z_i$ by "shifting" the function forward $i$ integers, and we have shown it for $i=15$ and $i=20$ (with downward arrows). Figure \@ref(fig:discreteMAF2positions) also shows simulated values of $W_i$, independent normal random variables with mean zero and variance 1, as gray circles in the middle panel.  The resulting simulated $Z_i$, for $i = 10,\ldots,40$, using \@ref(eq:tsZidef2), are shown in the bottom panel. For example, $Z_{15}$ is created by taking the weights given by the green circles, and multiplying each weight times the $W_j$ just below it, and then summing these products, yielding $Z_{15}$.  A random variable for each $i, i=10,\ldots,40$ was created in this way by simply shifting $g_s(j-i,\theta)$ for each $i$. The random number seed is shown so that you can obtain these exact results.  You can also try various sample sizes, different $g(j,\theta)$, etc., to better understand how moving averages work.
+
+```{r, discreteMAF2positions, echo = FALSE, out.width='90%', fig.align = 'center', fig.pos = 'h', fig.cap="Moving average function, $g_s(j-15,\\theta)$, operating on W's, resulting in $\\{Z_i\\}$."}
+layout(matrix(1:3, ncol = 1), heights = c(1,1,1.2))
+
+par(mar = c(0,6,1,1), family = 'sans')
+plot(1:40, g_s((1:40)-15, theta), pch = 19, cex = 2.8, 
+	col = rgb(0,.5,.5,alpha = .5), ylab = expression(italic(paste("g"[s],"(j,", theta, ")"))),
+	xlab = '', cex.lab = 2.5, cex.axis = 1.5, xaxt = 'n')
+points(1:40, g_s((1:40)-20, theta), pch = 19, cex = 2.8,
+	col = rgb(.4,0,.6,alpha = .5))
+lines(c(15,15),c(1,-.05), lwd = 3)
+lines(c(20,20),c(1,-.05), lwd = 3)
+
+# set length of moving average
+par(mar = c(0,6,0,1))
+plot(1:N, W, type = 'l', xlab = '', cex.lab = 2.5, xaxt = 'n',
+	cex.axis = 1.5, ylab = expression(italic("W"[j])), col = 'gray')
+points(1:N, W, pch = 19, cex = 3, col = 'gray')
+lines(c(15,15),c(2.6,-3.5), lwd = 3)
+lines(c(20,20),c(2.6,-3.5), lwd = 3)
+
+par(mar = c(5,6,0,1))
+plot(theta:N, Z[10:40], type = 'l', cex.lab = 2.5,
+	cex.axis = 1.5, ylab = expression(italic("Z"[i])), col = 'black', xlim = c(1,40),
+	xlab = 'Integer Sequence (i or j)')
+points(theta:N, Z[10:40], pch = 19, cex = 3, col = 'black')
+arrows(15,4.7,15,0.5, lwd = 3, angle = 12)
+text(15.1,2.5,label = 'i = 15', pos = 2, cex = 2)
+arrows(20,4.7,20,1, lwd = 3, angle = 12)
+text(20.1,3,label = 'i = 20', pos = 2, cex = 2)
+```
+
+### Properties {#MomentsDiscreteTS}
+
+What properties do the moving average functions give to the random variables, $\{Z_i\}$, when constructed using \@ref(eq:tsZidef2)?  If $E[W_i] = 0 \ \forall \ i$, then $E[Z_i] = 0$ for either $g(j;\theta)$ in \@ref(eq:gellandgs).  If the variance of $W_i = 1 \ \forall \ i$, then the variance of $Z_i$ will be
+
+\begin{equation}
+\textrm{var}[Z_i] = \sum_{j = -\infty}^\infty [g(j;\theta)]^2,
+(\#eq:discreteTSvar)
+\end{equation}
+
+and so if $\{Z_i\}$ is constructed with $g_\ell(j;\theta)$, then $\textrm{var}[Z_i] = 1/\theta$.  If $\{Z_i\}$ is constructed with $g_s(j;\theta)$, then $\textrm{var}[Z_i] = (2\theta^2 + 3\theta + 1)/(6\theta)$.  Note that we can always construct the random variables with mean $0$ and variance $1$ for $W$, and then add a mean, and scale the newly constructed random variables, afterwards, to obtain any desired mean and variance. The autocovariance between $Z_i$ and $Z_{i + h}$ is
+
+\begin{equation}
+C(h;\theta) \equiv \textrm{cov}[Z_i, Z_{i + h}] = \sum_{j = -\infty}^\infty g(j;\theta)g(j - h;\theta).
+(\#eq:discreteTScov)
+\end{equation}
+
+Consider $g_\ell(j;\theta)$, then $C_\ell(h;\theta) = (1 - h/\theta)/\theta$.  The autocorrelation function is 
+
+\begin{equation}
+\rho(h;\theta) \equiv \frac{C(h;\theta)}{\sqrt{\textrm{var}(Z_i)\textrm{var}(Z_{i+h})}},
+(\#eq:theoACFts)
+\end{equation}
+
+so $\rho_\ell(h;\theta) = (1 - h/\theta)$. A plot of $\rho_\ell(h;\theta)$, for $\theta = 5$, is
+
+```{r, theoACFlwsTS, echo = TRUE, out.width='60%', fig.align = 'center', fig.pos = 'h', fig.cap="Theoretical autocorrelation function for $\\{Z_i\\}$."}
+rho_ell = function(h, theta){(1 - h/theta)*(h < theta)}
+par(mar = c(5,5,1,1))
+plot(0:6, rho_ell(0:6, 5), pch = 19, cex = 3, cex.lab = 2, cex.axis = 1.5,
+	xlab = 'Lag h', ylab = 'Autocorrelation')
+```
+
+Now compare Figure \@ref(fig:empACFlwsTS) with Figure \@ref(fig:theoACFlwsTS).  The empirical autocorrelation function on simulated data estimates the theoretical one derived from \@ref(eq:theoACFts).  For the moving average function $g_s(j;\theta)$, the theoretical autocovariance function is
+
+$$
+C_s(h,\theta) = \frac{(\theta-h)(\theta-h+1)(2\theta + h + 1)}{6\theta^2}
+$$
+
+and so the autocorrelation function is
+
+$$
+\rho_s(h,\theta) = \frac{(\theta-h)(\theta-h+1)(2\theta + h + 1)}{2\theta^3 + 3\theta^2 + \theta}
+$$
+
+A plot of $\rho_s(h;\theta)$, for $\theta = 5$, is
+
+```{r, theoACFsphTS, echo = TRUE, out.width='60%', fig.align = 'center', fig.pos = 'h', fig.cap="Theoretical autocorrelation function for $\\{Z_i\\}$ when using $g_s(h;\\theta)$."}
+rho_s = function(h, theta){((theta - h)*(theta - h + 1)*
+	(2*theta + h + 1))*(h < theta)/(2*theta^3 + 3*theta^2 + theta)}
+par(mar = c(5,5,1,1))
+plot(0:6, rho_s(0:6, 5), pch = 19, cex = 3, cex.lab = 2, cex.axis = 1.5,
+	xlab = 'Lag h', ylab = 'Autocorrelation')
+```
+
+One very important result is that the mean, variance, autocovariance, and autocorrelation functions do not change if the moving average function is translated or flipped.  Again consider $g_s(j;\theta)$ in \@ref(eq:gellandgs), which are the weights given in green in Figure \@ref(fig:MAFsphFlip). Now let
+
+$$
+g_{s1}(j;\theta) = \left(\frac{j}{\theta}\right) \mathcal{I}(0 \le j \le \theta) \\
+g_{s2}(j;\theta) = \left(1-\frac{|j|}{\theta}\right) \mathcal{I}(0 \le j \le \theta).
+$$
+Let's create these functions in **R**,
+```{r, echo = TRUE}
+g_s1 = function(j, theta){(j/theta)*(0 <= j & j <= theta)}
+g_s2 = function(j, theta){(1-abs(j)/theta)*(0 <= j & j <= theta)}
+```
+
+For $g_{s1}(j;\theta)$, the moving average function is translated from $g_{s}(j;\theta)$ to the integers with positive values. For example, Figure \@ref(fig:MAFsphFlip) shows $g_{s}(j-15;\theta)$ as green circles, which are exactly the same as in Figure \@ref(fig:discreteMAF2positions)). For $g_{s1}(j-15;\theta)$, whose weights are shown as purple circles in Figure \@ref(fig:MAFsphFlip), the moving average function $g_{s}(j;\theta)$ has been translated to the right (yet still defines $Z_{15}$). Although the simulated $Z_15$ will obviously be different, the mean, variance, autocovariance, and autocorrelation are exactly the same for $g_{s}(j;\theta)$ and $g_{s1}(j;\theta)$. The same is true if $g_{s}(j;\theta)$ is flipped.  For $g_{s2}(j-15;\theta)$, whose weights are shown as gold circles in Figure \@ref(fig:MAFsphFlip), the moving average function $g_{s}(j;\theta)$ has been flipped (yet again defines $Z_{15}$). The statistical properties of $\{Z_i\}$ are the same for all 3 of the moving average functions shown in  Figure \@ref(fig:MAFsphFlip).  This is interesting because we will see that translation and flipping matter for stream networks.
+
+```{r, MAFsphFlip, echo = FALSE, out.width='90%', fig.align = 'center', fig.height = 3, fig.pos = 'h', fig.cap="Three moving average functions -- $g_s(j-15;\\theta)$ in green, $g_{s1}(j-15;\\theta)$ in purple, and $g_{s2}(j-15;\\theta)$ in gold -- that yield the same mean, variance, autocovariance, and autocorrelation."}
+theta = 10
+par(mar = c(5,5,1,1), family = 'sans')
+plot(1:40, g_s((1:40)-15, theta), pch = 19, cex = 2.0, 
+	col = rgb(0,.5,.5,alpha = .7), ylab = expression(italic(paste("g(j,", theta, ")"))),
+	cex.lab = 1.5, cex.axis = 1.3, xlab = 'Integer Sequence')
+points(1:40, g_s1((1:40)-15, theta), pch = 19, cex = 2.0,
+	col = rgb(.4,0,.6,alpha = .7))
+points(1:40, g_s2((1:40)-15, theta), pch = 19, cex = 2.0,
+	col = rgb(.6,.6,0,alpha = .7))
+```
+
+## Continuous Time Series
+
+Now, let us extend what we learned in Section \@ref(DiscreteTS) to continuous time.
+
+### Definition and Construction
+
+@Yagl:corr:1987 shows that a large class of autocovariances can be developed by creating random variables as the integration of a moving-average function over a white-noise random process,
+
+\begin{equation} 
+	Z(s) = \int_{-\infty}^{\infty}g(x-s;\boldsymbol{\theta})dW(x),
+	(\#eq:Zdef)
+\end{equation}
+
+where $x$ and $s$ are locations on the real line and $g(x;\boldsymbol{\theta})$ is called the moving-average function defined on $\mathcal{R}^{1}$. Equation \@ref(eq:Zdef) looks a little intimidating, but we can break it down and rely on what we learned in Section \@ref(DiscreteTS). First, $g(x;\boldsymbol{\theta})$ is defined on continuous $x$, but otherwise is exactly analogous to \@ref(eq:gDefDiscrete), which was defined on the integers.  Next, consider $dW(x)$, which is a "Brownian motion differential." First, look again at \@ref(eq:tsZidef2) and remove the stipulation that $g(j;\theta)$ is defined on integers, and replace it with $g(x;\theta)$ that is now defined on a regular sequence on the real line. Then imagine that we start making that sequence finer and finer, packing more and more $W_i$ per unit of length. If the definition of $g(x;\theta)$ stays constant, then the variance will grow and grow because we are summing more and more $W_i$. In order to get to a continuous version of $W_i$, their variances must shrink as we pack them tighter and tighter. Althought the mathematics are deep and intricate, for practical purposes we can think of $dW(x)$ as the continuous analog to $W_i$ where they get very dense and their variances shrink in just the right way.  In the same way, the integral $\int$ in \@ref(eq:Zdef) simply replaces the $\sum$ in \@ref(eq:tsZidef2). If it is simpler, one can just think of \@ref(eq:Zdef) as a limit as \@ref(eq:tsZidef2) gets really dense within an area (that is, the $\infty$-limits of \@ref(eq:tsZidef2) are within a interval on the real line, rather than on the integers). Hence, the construction of moving averages for continuous time is a complete analog to discrete time. The result is that we have a _random function_ rather than a finite set of random variables. This is shown by the notation that $Z(s)$ _is_ a function, defined everywhere on the real line; that is, at any $s \in \mathcal{R}^1$.
+
+What do some of these moving average functions, $g(x;\boldsymbol{\theta})$, look like?  A set of 5 of them, which will carry over to stream networks, is given in Table \@ref(tab:MAFunctions).
+
+Name                               Moving average function
+------                ---------------------------------------------------------------------------------
+Linear-with-sill          $g_{lws}(x;\boldsymbol{\theta}) = \theta_p \mathcal{I}(0 \leq x/\theta_r \leq 1)$
+Spherical                 $g_{sph}(x;\boldsymbol{\theta}) = \theta_p(1 - x/\theta_r) \mathcal{I}(0 \leq x/\theta_r \leq 1)$
+Epanechnikov              $g_{epa}(x;\boldsymbol{\theta}) = \theta_p(1 - x/\theta_r)^2 \mathcal{I}(0 \leq x/\theta_r \leq 1)$
+Exponential               $g_{exp}(x;\boldsymbol{\theta}) = \theta_pe^{-x/\theta_r} I(0 \leq x)$
+Mariah                    $g_{mar}(x;\boldsymbol{\theta}) = \theta_p\frac{1}{1 + x/\theta_r } I(0 \leq x)$
+------                ---------------------------------------------------------------------------------
+Table:(\#tab:MAFunctions)Moving average functions.
+
+In **R**, we create each function,
+```{r, echo = TRUE}
+g_lws = function(x, theta){(1)*(0 <= x & x <= 1)}
+g_sph = function(x, theta){(1-x/theta)*(0 <= x & x <= theta)}
+g_epa = function(x, theta){(1-x/theta)^2*(0 <= x & x <= theta)}
+g_exp = function(x, theta){exp(-x/theta)*(0 <= x)}
+g_mar = function(x, theta){1/(1 + x/theta)*(0 <= x)}
+```
+
+A graph of each function is given in Figure \@ref(fig:all5MAF) for $\theta_p = 1$ and $\theta_r = 1$.
+
+```{r, all5MAF, out.width='80%', fig.align='center', cache = TRUE, echo = FALSE, fig.pos = 'h', fig.cap='la te da'}
+theta = 1
+xvals = (-100:2000)/1000
+par(mar = c(5,5,1,1), family = 'sans')
+plot(xvals, g_lws(xvals, theta), type = 'l', 
+	ylab = expression(italic(paste("g(x,", bold(theta), ")"))),
+	cex.lab = 2, cex.axis = 1.5, xlab = 'x',
+	lwd = 8, col = rgb(230/255,25/255,75/255, alpha = .5))
+lines(xvals, g_sph(xvals, theta), lwd = 8, 
+	col = rgb(60/255,180/255,75/255, alpha = .5))
+lines(xvals, g_epa(xvals, theta), lwd = 8,
+	col = rgb(255/255,225/255,25/255, alpha = .7))
+lines(xvals, g_exp(xvals, theta), lwd = 8, 
+	col = rgb(0/255,130/255,200/255, alpha = .5))
+lines(xvals, g_mar(xvals, theta), lwd = 8, 
+	col = rgb(245/255,130/255,48/255, alpha = .5))
+legend(1.1,.97, legend = c('Linear-with-sill','Spherical','Epanechnakov',
+	'Exponential','Mariah'),lwd = 8, cex = 1.3,
+	col = c(rgb(230/255,25/255,75/255, alpha = .5),
+		rgb(60/255,180/255,75/255, alpha = .5),
+		rgb(255/255,225/255,25/255, alpha = .7),
+		rgb(0/255,130/255,200/255, alpha = .5),
+		rgb(245/255,130/255,48/255, alpha = .5)))
+```
+
+To help visualize the construction of $Z(s)$ in \@ref(eq:Zdef), we provide Figure \@ref(fig:ContinuousMAF) as the continuous version of Figure \@ref(fig:discreteMAF2positions).  The weights are provided in the top panel of Figure \@ref(fig:ContinuousMAF).  Note that the constructions at locations $x = 0.1$ and $x = 0.2$, shown in green, the weights are only forward of $Z(0.1)$ and $Z(0.2)$, respectively.  The product of these weights and white noise, $dW(x)$, are integrated to provide the random value. We do not show any units for $dW(x)$ because they are infinitesimally small (and infinitely dense). We do not show any units for $Z(x)$ because it can be scaled to any variance, and we show more about its properties in the next section. Note that $Z(x)$ is continuous, so it is a random function, shown in green for $g_{sph}(x,\theta)$ when the weights are forward.  When we flip the weights around, so that they point backward, as shown by the purple functions in the top panel, we obtain an mirror image of the random function (for fixed $dW(x)$) as the purple function in the bottom panel.  The consequence of flipping the function will be discussed in the next section.
+
+```{r, ContinuousMAF, echo = FALSE, cache = TRUE, out.width='90%', fig.align = 'center', fig.pos = 'h', fig.cap="Moving average function, $g_{sph}(x-s,\\theta)$, integrated against _dW(x)_, resulting in _Z(x)_. We show the construction for _x = 0.1, 0.2, 0.8, and 0.9_. For _x = 0.1, 0.2_, colored in green, the weights are only **forward** from the location of the constructed random variable. For _x = 0.8, 0.9_, colored in purple, the weights are only **backward** from the location of the constructed random varible."}
+set.seed(1050)
+layout(matrix(1:3, ncol = 1), heights = c(1,1,1.2))
+
+theta = .2
+xrang = (1:5000)/5000
+par(mar = c(0,6,1,1), family = 'sans')
+plot(xrang, g_sph(xrang-.1, theta), type = 'l', lwd = 5, 
+	col = rgb(0,.5,.5,alpha = .5), ylab = expression(italic(paste("g"[sph],"(x,", theta, ")"))),
+	xlab = '', cex.lab = 2.5, cex.axis = 1.5, xaxt = 'n')
+lines(xrang, g_sph(xrang-.2, theta), lwd = 5,
+	col = rgb(0,.5,.5,alpha = .5))
+lines(xrang, g_sph(.8-xrang, theta), lwd = 5,
+	col = rgb(.4,0,.6,alpha = .5))
+lines(xrang, g_sph(.9-xrang, theta), lwd = 5,
+	col = rgb(.4,0,.6,alpha = .5))
+lines(c(.1,.1),c(1,-.05), lwd = 5)
+lines(c(.2,.2),c(1,-.05), lwd = 5)
+lines(c(.8,.8),c(1,-.05), lwd = 5)
+lines(c(.9,.9),c(1,-.05), lwd = 5)
+
+# set length of moving average
+xrang = (-999:6000)/5000
+W = rnorm(7000)
+par(mar = c(0,6,0,1))
+plot(xrang[1001:6000], W[1001:6000], type = 'l', xlab = '', cex.lab = 2.5, xaxt = 'n',
+	cex.axis = 1.5, ylab = expression(italic("dW(x)")), col = 'gray', yaxt = 'n')
+lines(c(.1,.1),c(3.7,-4.2), lwd = 5)
+lines(c(.2,.2),c(3.7,-4.2), lwd = 5)
+lines(c(.8,.8),c(3.7,-4.2), lwd = 5)
+lines(c(.9,.9),c(3.7,-4.2), lwd = 5)
+
+Zx = function(x){sum(g_sph(xrang-x, theta)*W)/100}
+Zx1 = function(x){sum(g_sph(x-xrang, theta)*W)/100}
+Z = rep(NA, times = 5000)
+Z1 = rep(NA, times = 5000)
+for(i in 1:5000) {Z[i] = Zx(xrang[i+1000])
+	Z1[i] = Zx1(xrang[i+1000])}
+par(mar = c(5,6,0,1))
+plot(xrang[1001:6000], Z, type = 'l', cex.lab = 2.5, lwd = 2,
+	cex.axis = 1.5, ylab = expression(italic("Z(x)")), xlim = c(0,1),
+	xlab = 'Continuous Real Line', yaxt = 'n', 
+	col = rgb(0,.5,.5,alpha = .5))
+lines(xrang[1001:6000], Z1, type = 'l', lwd = 2,
+	col = rgb(.4,0,.6,alpha = .5))
+	
+
+arrows(0.1, 0.46, 0.1, 0.20, lwd = 5, angle = 12)
+text(0.1, 0.20, label = 'x = 0.1', pos = 2, cex = 2)
+arrows(0.2, 0.46, 0.2, -0.10, lwd = 5, angle = 12)
+text(0.2, 0.3, label = 'x = 0.2', pos = 4, cex = 2)
+arrows(0.8, 0.46, 0.8, 0.05, lwd = 5, angle = 12)
+text(0.8, 0.3, label = 'x = 0.8', pos = 2, cex = 2)
+arrows(0.9, 0.46, 0.9, -0.20, lwd = 5, angle = 12)
+text(0.9, 0.04, label = 'x = 0.9', pos = 4, cex = 2)
+
+```
+### Properties
+
+Now, what about properties of the construction in \@ref(eq:Zdef)?  In Section \@ref(MomentsDiscreteTS) we showed the expectation, variance, autocovariance, and autocorrelation for discrete time series under a moving average construction. Generally, white noise is assumed to have mean 0, so
+
+$$
+\textrm{E}[Z(s)] = 0.
+$$  
+
+The variance is
+
+\begin{equation}
+\textrm{var}[Z(s)] = E[Z(s)^2]=\int_{-\infty}^{\infty}g(x;\boldsymbol{\theta})^2dx.
+(#eq:squareInt)
+\end{equation}  
+
+Notice that for the variance to exist, \@ref(eq:squareInt) must exist; in other words, $g(x;\boldsymbol{\theta})$ must not have too much area under the curve. This condition is often stated by saying that $g(x;\boldsymbol{\theta})$ is "square integrable." 
+
+
+What about the autocovariance and autocorrelation? The moving-average construction \@ref(eq:Zdef) allows a valid autocovariance between $Z(s)$ and $Z(s+h)$ to be expressed as
+
+\begin{equation} 
+	C(h;\boldsymbol{\theta})= 
+		\int_{j = -\infty}^{\infty}g(x;\boldsymbol{\theta})g(x-h;\boldsymbol{\theta})dx.
+(\#eq:moveave)
+\end{equation}
+
+Once again, compare \@ref(eq:moveave) with \@ref(eq:discreteTScov) from discrete time series.
+
+
+## Tail-up Models {#TUModels}
+
+The moving average construction in \@ref(eq:Zdef) and \@ref(eq:moveave) is well-known for the continuous real line from $-\infty$ to $\infty$, such as for time-series models.  @Ver:Pete:Theo:spat:2006 and @Cres:Frey:Harc:Smit:spat:2006 use moving averages for a stream network to develop models as in Figure \@ref(fig:FigTailUp3D1). 
+ 
+
+```{r, FigTailUp3D1, out.width='70%', fig.align='center', cache = TRUE, echo = FALSE, fig.pos = 'h', fig.cap='Three locations on a stream network, $r_1$, $s_2$, $t_3$.  The tail-up moving-average functions are shown each location.  The moving average functions are integrated against white noise on a stream network, which is depicted as the ragged black lines on the stream network, given as blue lines. Autocorrelation is created when functions overlap.  The total area under the green function, going upstream from $r_1$, is constant, requiring a splitting of the function up each branch.'}
+knitr::include_graphics('/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/graphTailUp3D.png')
+```
+
+We call these the ``tail-up'' models because they are unilateral in the upstream direction (moving average function values are positive only upstream from a location).  In Figure , the moving average function goes upstream from $r_1$.  When it reaches a fork, at $u_1$, the function continues up each branch, but it is weighted. For example, weights could be proportional to flow volume or other meaningful metrics.
+
+For the following development, let $r_i$ and $s_j$ denote two locations on a stream network, and let $h$ be the stream distance between them. For FC locations, from \@ref(eq:Zdef), the unweighted covariance between two such locations is
+\begin{equation} 
+  C_t(h;\boldsymbol{\theta}) = \int_{h}^{\infty}g(x;\boldsymbol{\theta})g(x-h;\boldsymbol{\theta})dx, 
+  (#eq:tailupcon)
+\end{equation}
+where $h$ is the stream distance between locations $r_i$ and $s_j$. As mentioned earlier, a unique feature of tail-up stream network models is the splitting of $g(x;boldsymbol{\theta})$ as it goes upstream (Figure \@ref(fig:FigTailUp3D1), which is achieved by assigning a weighting attribute to each stream segment. To account for the splitting [@Ver:Pete:Theo:spat:2006; @Cres:Frey:Harc:Smit:spat:2006], \@ref(eq:Zdef) is modified to construct a spatial process on a stream network as
+$$
+  Z(s_i;\boldsymbol{\theta}) = \int_{\vee_{s_i}} g(x-s_i;\boldsymbol{\theta}) \sqrt{\frac{\Omega(x)}{\Omega(s_i)}} dW(x),
+$$
+where $\Omega(x)$ is an additive function that ensures stationarity in variance; that is, $\Omega(x)$ is constant within a stream segment, but then $\Omega(x)$ is the sum of each segment's value when two segments join at a junction. (Figure ).  This definition leads to \@ref(eq:moveaveup) where $\pi_{i,j}=\sqrt{\Omega(s_j)/\Omega(r_i)}$. If two sites are FU, then their covariance is zero, by construction (Figure \@ref(fig:FigTailUp3D1). Then the following tail-down covariance models have been developed using the moving average construction [@Ver:Pete:Theo:spat:2006]:
+
+\begin{equation} 
+	C_u(r_i,s_j|\boldsymbol{\theta}_u)=
+  \left\{ \begin{array}{ll} \pi_{i,j}C_t(h;\boldsymbol{\theta}_u) &
+      \textrm{if $r_i$ and $s_j$ FC,} \\
+      0 & \textrm{if $r_i$ and $s_j$ FU,}
+	\end{array} \right.
+	(#eq:moveaveup)
+\end{equation}
+
+where $\pi_{i,j}$ are weights due to branching characteristics of the
+stream, and the function $C_t(h;\boldsymbol{\theta}_u)$ can take the following
+forms:
+
+ we obtain the following tail-up models.
+
+- Tail-up Linear-with-Sill Model:
+
+$$
+  C_t(h;\boldsymbol{\theta}_u)=
+  \sigma^2_u\left(1 -\frac{h}{\theta_r}\right)\mathcal{I}\left(\frac{h}{\theta_r}\leq 1\right).
+$$
+
+- Tail-up Spherical Model,
+
+$$
+  C_t(h;\boldsymbol{\theta}_u)=
+  \sigma^2_u\left(1-\frac{3}{2}\frac{h}{\alpha_u}+\frac{1}{2}\frac{h^3}{\alpha_u^3}\right)
+  I\left(\frac{h}{\alpha_u}\leq 1\right),
+$$
+
+- Tail-Up Exponential Model,
+
+$$
+  C_t(h;\boldsymbol{\theta}_u)= \sigma^2_u\exp(-3h/\alpha_u),
+$$
+
+- Tail-up Mariah Model,
+
+$$
+  C_t(h;\boldsymbol{\theta}_u)= \left\{ \begin{array}{ll}
+      \sigma^2_u\left(\frac{\log(90h/\alpha_u+1)}{90h/\alpha_u}\right) &
+      \textrm{if} \; h > 0,\\
+      \sigma^2_u &
+      \textrm{if} \; h = 0,\\
+    \end{array} \right.
+$$
+  
+- Tail-up Epanechnikov Model \citep{Garr:Mone:Ver:spat:2009},
+
+$$
+  C_t(h;\boldsymbol{\theta}_u)=
+      \frac{\sigma^2_u(h-\alpha_u)^2f_{eu}(h;\alpha_u)}{16\alpha_u^5} 
+	I\left(\frac{h}{\alpha_u}\leq 1\right),
+$$
+
+where $f_{eu}(h;\alpha_u)=16\alpha_u^2 + 17\alpha_u^2h - 2\alpha_uh^2-h^3$, $I(\cdot)$ is the indicator function (equal to one when the argument is true), $\sigma^2_u > 0$ is an overall variance parameter (also known as the partial sill), $\alpha_u > 0$ is the range parameter, and $;\boldsymbol{\theta}_u = (\sigma^2_u,\alpha_u)^\top$. Note the
+factors 3, and 90 for the exponential and Mariah models, respectively,
+which cause the autocorrelation to be approximately 0.05 when $h$
+equals the range parameter, which helps compare range parameters
+($\alpha_u$) across models. (The distance at which autocorrelation
+reaches 0.05 is sometimes called the effective range when models
+approach zero asymptotically.)
+
+## Tail-Down Models {#TDModels}
+
+The moving average construction in \@ref(eq:Zdef) and \@ref(eq:moveave) is well-known for the continuous real line from $-\infty$ to $\infty$, such as for time-series models.  For tail-down models, we also distinguish between the FC and FU situation.  When two sites are FU, recall that $b$ denotes the longer of the distances to the common downstream junction, and $a$ denotes the shorter of the two distances. Then the model is the integral of the overlapping moving average functions seen in Figure \@ref(fig:FigTailDown3D1).
+
+```{r, FigTailDown3D1, out.width='70%', fig.align='center', cache = TRUE, echo = FALSE, fig.pos = 'h', fig.cap='Three locations on a stream network, $r_1$, $s_2$, $t_3$.  The tail-up moving-average functions are shown each location.  The moving average functions are integrated against white noise on a stream network, which is depicted as the ragged black lines on the stream network, given as blue lines. Autocorrelation is created when functions overlap.  The total area under the green function, going upstream from $r_1$, is constant, requiring a splitting of the function up each branch.'}
+knitr::include_graphics('/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/graphTailDown3D.png')
+```
+
+If two sites are FC, again use $h$ to denote their total separation distance via the stream network, and the model is the integral of the overlapping moving average functions seen in Figure \@ref(fig:FigTailDown3D1). The following are tail-down models:
+
+- Tail-Down Linear-with-Sill Model, $b \geq a \geq 0$,
+$$
+  C_{d,lws}(a,b,h;\boldsymbol{\theta})= \left\{ \begin{array}{ll}
+      \theta_p\left(1 -\frac{h}{\theta_r}\right)I\left(\frac{h}{\theta_r}\leq 1\right) &
+      \textrm{if FC,}\\
+      \theta_p\left(1 -\frac{b}{\theta_r}\right)I\left(\frac{b}{\theta_r}\leq 1\right) &
+      \textrm{if FU,}
+    \end{array} \right.
+$$
+- Tail-Down Spherical Model, $b \geq a \geq 0$,
+$$
+  C_{d,sph}(a,b,h;\boldsymbol{\theta})= \left\{ \begin{array}{ll}
+      \theta_p(1-\frac{3}{2}\frac{h}{\theta_r}+\frac{1}{2}\frac{h^3}{\theta_r^3})I\left(\frac{h}{\theta_r}\leq 1\right) &
+      \textrm{if FC,}\\
+      \theta_p\left(1-\frac{3}{2}\frac{a}{\theta_r}+\frac{1}{2}\frac{b}{\theta_r}\right)
+      \left(1- \frac{b}{\theta_r}\right)^2I\left(\frac{b}{\theta_r}\leq 1\right) &
+      \textrm{if FU,}
+    \end{array} \right.
+$$
+- Tail-down Epanechnikov Model, $b \geq a \geq 0$,
+$$
+  C_{d,epa}(a,b,h;\boldsymbol{\theta})= \left\{ \begin{array}{ll}
+      \frac{\theta_p(h-\theta_r)^2f_{eu}(h;\theta_r)}{16\theta_r^5} 
+	I\left(\frac{h}{\theta_r}\leq 1\right) &
+      \textrm{if FC,}\\
+      \frac{\theta_p(b-\theta_r)^2f_{ed}(a,b;\theta_r)}{16\theta_r^5} 
+	I\left(\frac{b}{\theta_r}\leq 1\right) &
+      \textrm{if FU,}
+    \end{array} \right.
+$$
+where $f_{eu}$ was defined for tail-up models, and 
+$$
+f_{ed}(a,b;\theta_r)=16\theta_r^3 + 17\theta_r^2b - 15\theta_ra - 20\theta_ra^2 - \\
+  2\theta_rb^2 + 10\theta_rab + 5ab^2 - b^3 - 10ba^2.
+$$
+- Tail-down Exponential Model,
+$$
+  C_{d,exp}(a,b,h;\boldsymbol{\theta})= \left\{ \begin{array}{ll}
+      \theta_p\exp(-3h/\theta_r) &
+      \textrm{if FC,}\\
+      \theta_p\exp(-3(a+b)/\theta_r) &
+      \textrm{if FU,}
+    \end{array} \right.
+$$
+- Tail-down Mariah Model,
+$$
+  C_{d,mar}(a,b,h;\boldsymbol{\theta})= \left\{ \begin{array}{ll}
+      \sigma^2\left(\frac{\log(90h/\theta_r+1)}{90h/\theta_r}\right) &
+      \textrm{if FC, } h > 0,\\
+      \sigma^2	& \textrm{if FC, } h = 0,\\
+      \sigma^2\left(\frac{\log(90a/\theta_r+1)-\log(90b/\theta_r+1)}{90(a-b)/\theta_r}\right) &
+      \textrm{if FU, } a \ne b, \\
+      \sigma^2\left(\frac{1}{90a/\theta_r+1}\right) &
+      \textrm{if FU, } a = b,
+    \end{array} \right.
+$$
+
+For all models, $\sigma^2 > 0$ and $\theta_r > 0$, and $\boldsymbol{\theta} = (\sigma^2,\theta_r)^\top$.  Although not necessary to maintain stationarity, the weights used in the tail-up models can be applied to the tail-down models as well.  Note that $h$ is unconstrained, because for model-building we imagine that the headwater and outlet segments continue to infinity, as first described by \citet{Ver:Pete:Theo:spat:2006}. Also note that $a$ does not appear in the tail-down linear-with-sill model, but is used indirectly because the model depends on the point that is farthest from the junction; i.e., $b$, and so $a$ is the shorter of the two distances.
+
+## Euclidean Distance Models
+
+We also include the possibility for traditional geostatistical models based on Euclidean distance.  Before developing the spatial linear model, we give the Euclidean distance models that we have included in the **SSN** package for **R**. We allow the use of 4 Euclidean distance models in the **SSN** package.  Let $d$ be Euclidean distance.  Then we have the follow autocovariance functions
+
+- Spherical Model,
+$$
+  C_{e,sph}(d;\boldsymbol{\theta})= \sigma_e^2\left(1-\frac{3}{2}\frac{d}{\theta_r}+\frac{1}{2}\frac{d^3}{\theta_r^3}\right)\mathcal{I}\left(\frac{d}{\theta_r}\leq 1\right)
+$$
+
+- Exponential Model,
+$$
+  C_{e,exp}(d;\boldsymbol{\theta})= 
+      \sigma_e^2\exp(-3d/\theta_r) 
+$$

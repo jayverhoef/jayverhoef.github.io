@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: SpatStatStreamNet.aux
+The style file: apalike.bst
+Database file #1: StatBibTex.bib.bib
+Warning--I didn't find a database entry for "R-bookdown"
+Warning--I didn't find a database entry for "xie2015"
+You've used 18 entries,
+            1935 wiz_defined-function locations,
+            605 strings with 7394 characters,
+and the built_in function-call counts, 7381 in all, are:
+= -- 733
+> -- 320
+< -- 10
++ -- 112
+- -- 108
+* -- 661
+:= -- 1304
+add.period$ -- 57
+call.type$ -- 18
+change.case$ -- 144
+chr.to.int$ -- 18
+cite$ -- 18
+duplicate$ -- 244
+empty$ -- 495
+format.name$ -- 138
+if$ -- 1411
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 16
+newline$ -- 96
+num.names$ -- 54
+pop$ -- 100
+preamble$ -- 1
+purify$ -- 144
+quote$ -- 0
+skip$ -- 184
+stack$ -- 0
+substring$ -- 567
+swap$ -- 17
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 106
+warning$ -- 0
+while$ -- 61
+width$ -- 0
+write$ -- 243
+(There were 2 warnings)

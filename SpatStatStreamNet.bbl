@@ -1,0 +1,109 @@
+\begin{thebibliography}{}
+
+\bibitem[Christensen and Ribeiro, 2002]{Chri:Ribe:geoR:2002}
+Christensen, O. and Ribeiro, Paulo~J., J. (2002).
+\newblock georglm - a package for generalised linear spatial models.
+\newblock {\em R News}, 2(2):26--28.
+\newblock ISSN 1609-3631.
+
+\bibitem[Cressie et~al., 2006]{Cres:Frey:Harc:Smit:spat:2006}
+Cressie, N., Frey, J., Harch, B., and Smith, M. (2006).
+\newblock Spatial prediction on a river network.
+\newblock {\em Journal of Agricultural, Biological, and Environmental
+  Statistics}, 11(2):127--150.
+
+\bibitem[ESRI, 2014]{ESRI:ArcG:2014}
+ESRI (2014).
+\newblock Arcgis desktop: Release 10.3.
+\newblock Technical report, Environmental Systems Research Institute, Redlands,
+  CA.
+
+\bibitem[{Fields Development Team}, 2006]{Fiel:Deve:Team:2006}
+{Fields Development Team} (2006).
+\newblock fields: Tools for spatial data. national center for atmospheric
+  research, boulder, co.
+\newblock {http://www.cgd.ucar.edu/Software/Fields}.
+
+\bibitem[Finley et~al., 2007]{Finl:Bane:Carl:spBa:2007}
+Finley, A.~O., Banerjee, S., and Carlin, B.~P. (2007).
+\newblock sp{B}ayes: An {R} package for univariate and multivariate
+  hierarchical point-referenced spatial models.
+\newblock {\em Journal of Statistical Software}, 19(4):1--24.
+
+\bibitem[Garreta et~al., 2009]{Garr:Mone:Ver:spat:2009}
+Garreta, V., Monestiez, P., and Ver~Hoef, J.~M. (2009).
+\newblock Spatial modelling and prediction on river networks: {U}p model, down
+  model, or hybrid.
+\newblock {\em Environmetrics}, 21:439--456, DOI: 10.1002/env.995.
+
+\bibitem[Pebesma, 2004]{Pebe:mult:2004}
+Pebesma, E.~J. (2004).
+\newblock Multivariable geostatistics in s: the gstat package.
+\newblock {\em Computers \& Geosciences}, 30:683--691.
+
+\bibitem[Peterson et~al., 2007]{Pete:Theo:Ver:supp:2007}
+Peterson, E.~E., Theobald, D.~M., and Ver~Hoef, J.~M. (2007).
+\newblock Geostatistical modeling on stream networks: Developing valid
+  covariance matrices based on hydrologic distance and stream flow.
+\newblock {\em Freshwater Biology}, 52:267--279.
+
+\bibitem[Peterson and Ver~Hoef, 2010]{Pete:Ver:mixe:2010}
+Peterson, E.~E. and Ver~Hoef, J.~M. (2010).
+\newblock A mixed-model moving-average approach to geostatistical modeling in
+  stream networks.
+\newblock {\em Ecology}, 93(3):644--651.
+
+\bibitem[Peterson and Ver~Hoef, 2014]{Pete:Ver:STAR:2014}
+Peterson, E.~E. and Ver~Hoef, J.~M. (2014).
+\newblock Stars: An arcgis toolset used to calculate the spatial information
+  needed to fit spatial statistical models to stream network data.
+\newblock {\em Journal of Statisticla Software}, 56(2):1--17.
+
+\bibitem[Peterson et~al., 2013]{Pete:Ver:Isaa:stre:2013}
+Peterson, E.~E., Ver~Hoef, J.~M., Isaak, D.~J., Falke, J.~A., Fortin, M.-J.,
+  Jordan, C., McNyset, K., Monestiez, P., Ruesch, A.~S., Sengupta, A., Som, N.,
+  Steel, A., Theobald, D.~M., Torgersen, C.~E., and Wenger, S.~J. (2013).
+\newblock Stream networks in space: concepts, models, and synthesis.
+\newblock {\em Ecology Letters}, 16:707--719.
+
+\bibitem[{R Core Team}, 2015]{R:Deve:Core:ALan:2015}
+{R Core Team} (2015).
+\newblock {\em R: A Language and Environment for Statistical Computing}.
+\newblock R Foundation for Statistical Computing, Vienna, Austria.
+
+\bibitem[Ribeiro and Diggle, 2001]{Ribe:Digg:geoR:2001}
+Ribeiro, Paulo~J., J. and Diggle, P.~J. (2001).
+\newblock geo{R}: a package for geostatistical analysis.
+\newblock {\em R-NEWS}, 1(2):14--18.
+\newblock ISSN 1609-3631.
+
+\bibitem[Smith et~al., 2008]{Smit:Yan:Cowl:unif:2008}
+Smith, B.~J., Yan, J., and Cowles, M.~K. (2008).
+\newblock Unified geostatistical modeling for data fusion and spatial
+  heteroskedasticity with r package ramps.
+\newblock {\em Journal of Statistical Software}, 25(10):1--21.
+
+\bibitem[Venables and Ripley, 2002]{Vene:Ripl:mode:2002}
+Venables, W.~N. and Ripley, B.~D. (2002).
+\newblock {\em Modern Applied Statistics with S}.
+\newblock Springer, New York, fourth edition.
+\newblock ISBN 0-387-95457-0.
+
+\bibitem[Ver~Hoef and Peterson, 2010]{Ver:Pete:Move:2010}
+Ver~Hoef, J.~M. and Peterson, E. (2010).
+\newblock A moving average approach for spatial statistical models of stream
+  networks (with discussion).
+\newblock {\em Journal of the American Statistical Association}, 105:6--18.
+
+\bibitem[Ver~Hoef et~al., 2014]{Ver:Pete:Clif:Shah:SSN:2014}
+Ver~Hoef, J.~M., Peterson, E., Clifford, D., and Shah, R. (2014).
+\newblock Ssn: An r package for spatial statistical modeling on stream
+  networks.
+\newblock {\em Journal of Statistical Software}, 56(3):1--45.
+
+\bibitem[Ver~Hoef et~al., 2006]{Ver:Pete:Theo:spat:2006}
+Ver~Hoef, J.~M., Peterson, E.~E., and Theobald, D. (2006).
+\newblock Spatial statistical models that use flow and stream distance.
+\newblock {\em Environmental and Ecological Statistics}, 13(1):449--464.
+
+\end{thebibliography}

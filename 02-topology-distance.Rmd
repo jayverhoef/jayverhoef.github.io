@@ -1,0 +1,91 @@
+# Topology and Distance
+
+```{css, echo = FALSE}
+caption, .caption{
+  font-style:italic;
+  margin-top:0.5em;
+  margin-bottom:0.5em;
+  width:99%;
+  text-align: left;
+}
+body{
+  font-family: Times-Roman;
+  font-size: 11pt;
+}
+p {line-height: 2em;}
+tr:nth-child(even) {background-color: #f2f2f2;}
+th {
+    background-color: #4CAF50;
+    color: black;
+}
+p {
+padding-bottom: 15px;
+}
+
+```
+
+## Stream Topology {#StreamTopo}
+
+We define stream segments as lines between junctions in a stream network \citep{Ver:Pete:Theo:spat:2006, Ver:Pete:Move:2010}.  Our convention is that a location downstream is assigned a lower real number for position than a location upstream.  A dendritic stream network has a single most-downstream point (the outlet), which we set to 0, and it is the point from which all distances are computed.   We define "distance upstream" to be the length of the line from any location on a stream network that can be connected by a continuous line to the network outlet (lowest point in that network).  For model development it will be convenient to extend all terminal upstream segments to $\infty$ and a line downstream of the outlet to $-\infty$.
+
+There are a finite number of stream segments in an SSN, and we index them arbitrarily with $i = 1,2,\ldots$. Many locations will have the same distance from the outlet (our 0 point) in an SSN, so to uniquely define locations using distance upstream, we denote locations as $x_i$, where $x$ is distance upstream and $i$ indicates that it is on the $i$th stream segment.  In Figure \@ref(fig:Fig3SegStream), $r_1$ is distance $r$ upstream and it is located on the segment labeled 1. Note the arbitrary labeling of segments $r_1$, $s_2$, and $t_3$ as seen in Figure \@ref(fig:Fig3SegStream). We use $l_i$ for the smallest, and $u_i$ for the largest, upstream distance on the $i$th segment (Figure \@ref(fig:Fig3SegStream)).   
+
+```{r, Fig3SegStream, out.width='60%', fig.align='center', echo = FALSE, fig.pos = 'h', fig.cap='Three locations on a stream network, $r_1$, $s_2$, $t_3$.  The location of the farthest upstream distance on segment 1 is $u_1$.  The locations of the farthest downstream distances on segments 2 and 3 are $l_2$ and $l_3$, respectively.  Effectively, $u_1 = l_2 = l_3$, but it is convenient to use the distinct notation. For FU sites ($s_2$ and $t_3$), $a$ is used for the shorter distance to their common junction, and $b$ is used for the longer distance.  When sites are FC ($s_2$ and $r_1$), $h$ is used to denote the distance between them.'}
+knitr::include_graphics('/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/Fig3SegStream.png')
+```
+
+Let $A$ be the set of all stream segment indices.  We denote $U_{i}$, a subset of $A$, as the set of stream segments upstream of $x_i$, including the $i$th segment, and we denote $U^{*}_{i}$ as the set excluding the $i$th segment.  We denote $D_{i}$, also a subset of $A$, as the set of stream segments downstream of $x_i$, including the $i$th segment, and we denote $D^{*}_{i}$ as the set excluding the $i$th segment. This notation make precise the definition of "flow-connected" (FC) for two locations, $r_i$ and $s_j$, if $U_i \cap U_j \neq \emptyset$, and they are "flow-unconnected" (FU) if $U_i \cap U_j = \emptyset$. We can also define the set of stream segments "between" two FC locations, $r_i \leq s_j$, exclusive of the $i$th and $j$th segments, as $D^{*}_{j} \setminus D_i$. For point locations, we use $\vee_s$ to denote the network only upstream of point $s$, including all branchings, and $\wedge_s$ to denote the network downstream of $s$ that follows flow only (i.e., it does not go downstream and then back upstream).
+
+Modeling covariance requires total stream distance between pairs of points, so for two FU locations we will use $a$ to indicate the shorter distance from one location to the nearest junction downstream that shares flow with the other location (\@ref(fig:Fig3SegStream)), and we use $b$ to indicate the longer distance to the same junction. We use $h$ for the distance between two FC locations (Figure \@ref(fig:Fig3SegStream)).
+
+### Streams in R {#StreamsR}
+
+The spatial data needed to fit a stream network model are non-trivial. Much of the spatial data editing, information generation, and formatting take place in ArcGIS using the Spatial Tools for the Analysis of River Systems **STARS** toolset [@Pete:Ver:STAR:2014]. When this pre-processing is complete, a new directory is created to store the data, hereafter referred to as the **.ssn** directory, which can then be imported into **R**. These data include the feature geometry, attribute data, and topological relationships of each point and line data set, see Figure \@ref(fig:FigdotSSNdirectory).
+
+```{r, FigdotSSNdirectory, out.width='80%', fig.align='center', echo = FALSE, fig.pos = 'h', fig.cap='The **.ssn** directory contains the spatial, attribute, and topological information needed to create a **SpatialStreamNetwork** object in **R**. The *.shp files are of stream reaches (edges.shp), observed points on the stream (site.shp), and prediction points on the stream (preds.shp)(optional). The *.dat files contain topological relationship information for each distinct network; in this example, there are 5 networks..'}
+knitr::include_graphics('/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/jss984FigdotSSNdirectory.png')
+```
+
+The **.ssn** directory will always contain two shapefiles: edges and sites, which contain the geometry and attribute information for the stream network and the observed data locations. Multiple comma-delimited text files containing the topological information for each stream network within the edges data set will also be
+included. Here, a network is defined as a set of connected, directed line segments that share a common junction somewhere downstream. Note that the naming conventions for these files are implemented by the
+**STARS** toolset and must be preserved. Multiple shapefiles representing the prediction locations may also be included in the **.ssn** directory; however, the naming conventions for these data sets will vary. @Pete:Ver:STAR:2014 provide a detailed description of the **STARS** toolset, the methods used to generate the **.ssn** directory, and data therein.
+
+The **SpatialStreamNetwork** class is an **S4** object (Figure \@ref(fig:FigSSNclass), which is the foundational spatial data class in the **SSN** package. Its structure adheres to the conventions for spatial data classes set out by @Biva:Pebe:Gome:appl:2008. Yet, the **SpatialStreamNetwork** is unique because it contains both point and line features within the same **S4** object. It directly extends class **SpatialLinesDataFrame**, with additional slots included to store the spatial point data **SSNPoints**, a matrix containing information about the network coordinates of each line segment **network.line.coords**, as well as a string representing the filepath to the **.ssn** directory. A new class, **SSNPoint**, has been defined and created to store spatial point data for observation and prediction locations. This class is similar to class **SpatialPointsDataFrame**, but is not a direct extension of it since common slot names contain the prefix "point."  An additional matrix containing network coordinates, **network.point.coords**, has also been included. The object **SSNPoints** is a list of class **SSNPoints** that stores objects of class **SSNPoint**. It also contains a slot named **ID**, which holds a string identifier for each **SSNPoint**
+object. This allows identification within the **SpatialStreamNetwork** object when multiple data sets of
+prediction sites are included.
+
+```{r, FigSSNclass, out.width='80%', fig.align='center', echo = FALSE, fig.pos = 'h', fig.cap='The **SpatialStreamNetwork** class and slots; arrows with small heads show sub-class extensions and arrows with large heads show the inclusion of lists of objects.'}
+knitr::include_graphics('/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/jss984FigSSNclass.png')
+```
+
+## Dual Coordinate Systems {#DualCoord}
+
+While it is desirable to build models using stream distance, generating measures of distance is more complex in a SSN model than a model based on Euclidean distance. Stream network data have a dual spatial coordinate system because streams are embedded within the terrestrial landscape they flow through. As a result, points within a stream are located in 2-D space (geographical location), as well as within the network (topological location) (Figure \@ref(fig:FigDual). Although models based on either Euclidean distance _or_ network distance may be simpler to implement, critical information about environmental or ecological processes and correlation structures may be lost when models do not adequately account for the dual coordinate system [@Schl:Ange:spat:1995; @Urba:Keit:land:2001; @Faus:Torg:Baxt:Li:land:2002; @Bend:Poff:Mill:Dunn:netw:2004; @Urba:Mino:Trem:Schi:grap:2009; @Dale:Fort:from:2010; @Pete:Ver:Isaa:stre:2013].  Therefore, we will promote combining classical geostatistical models with those developed for stream networks. The details are given below.  First, we give some preliminaries on notation and computing distance within networks, as these are less familiar than typical 2-D coordinate systems and computing Euclidean distance.
+
+```{r, FigDual, out.width='70%', fig.align='center', echo = FALSE, fig.pos = 'h', fig.cap='Locations within a stream network are characterized by a dual spatial coordinate system. Three locations are given by solid and open circles and a grey square. In (a) and (b) the 3 locations have exactly the same 2-D coordinates, although their positions (and distances from each other) within the two stream networks are different. In (a) and (c) the 3 locations have exactly the same positions (and distances from each other) within the network, although their 2-D coordinates are different.'}
+knitr::include_graphics('/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/FigDual.png')
+```
+
+## Stream Distance {#StreamDist}
+
+In general, a straightforward approach for keeping track of network structure in a directed graph, such as a stream network, is to label segments (we adopt the graph terminology "edge"). A ForwardStar data structure [@Ahuj:Magn:Orli:netw:1993] is commonly used to keep track of which edge leads to another edge. This data structure is based on a set of "to-from" tables, which store information about the coincidence of features and can be searched to generate new spatial information. However, traversing to-from tables generated from a large stream network is computationally intensive, especially in an interpreted programming language like **R**. As an alternative, we developed a system based on a binary identifier (ID), which is used to rapidly assess flow-connectivity and stream distance between any two locations on the dendritic stream network.
+
+The process of assigning binary IDs is conceptually simple. First, the outlet edge (i.e., the most downstream edge in the network) is identified and assigned a binary ID equal to 1 (Figure \@ref(fig:FigBinaryID)). The information stored in the to-from table is then used to identify edges that are directly upstream from the outlet edge. Binary IDs are assigned to the upstream edge(s) by arbitrarily appending a 0 or 1 to the downstream binary ID. For example, binary IDs 10 and 11 are directly upstream from binary ID 1 in Figure \@ref(fig:FigBinaryID). This process of moving upstream and assigning binary IDs continues until every edge in the stream network has been assigned a binary ID.  Note that the binary ID is only unique within a stream network. Also, the binary ID is not the binary number that is equivalent to the segment number.  Stream segments are numbered arbitrarily and sequentially, but binary IDs actually represent the branching structure.
+
+```{r, FigBinaryID, out.width='70%', fig.align='center', echo = FALSE, fig.pos = 'h', fig.cap='A binary identifier (ID) is assigned to each segment in a stream network.  Use of binary IDs allows rapid assessment of flow-connectedness, distance to junctions, and stream distance among points on the network.'}
+knitr::include_graphics('/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/FigBinaryID.png')
+```
+
+The binary IDs are useful because they provide a way to rapidly determine whether locations have an FC or FU relationship. Two locations are considered FC when water flows from an upstream location to a downstream location. In contrast, two locations are FU when they reside on the same network, but water does not flow between them. In Figure \@ref(fig:FigBinaryID), site $r_1$ resides on the most downstream segment in the network (segment 1). Thus, the binary ID for $r_1$ is completely nested within the binary ID for the edge containing site $s_3$ ("1" is nested within "110"), which indicates that the two locations are FC. If the binary IDs for two edges are not nested, as is the case for $s_3$ and $t_6$ ("110" is not nested within "1111"), the two locations are FU. In addition, the binary IDs for FU locations contain information about the closest common downstream location. As an example, the most common downstream junction between sites $s_3$ and $t_6$ is "11" (Figure \@ref(fig:FigBinaryID)) and so "11" is the binary ID of the stream segment where sites $s_3$ and $t_6$ diverge.  
+
+One of the advantages of SSN models is that they can be used to represent both FC and FU relationships within a stream network. In order to do this, information about directional relationships must be preserved within an asymmetric distance matrix, which contains the downstream-only distance between each pair of locations. Four pieces of spatial information are generated using the STARS toolset and subsequently used to calculate the downstream-only stream distance matrix: 1) the network ID, 2) the binary IDs, 3) the upstream distance from the network outlet to the most upstream location on each edge, $u_i$ and 4) the upstream distance from the outlet to each location, $x_i$. As mentioned previously, the binary IDs are only unique within a network and so the first step is to determine whether two locations reside on the same network using the network IDs. When this is true, the binary IDs are used to determine whether two locations are FC or FU. If they are FU, the downstream-only distance between $t_3$ and $s_2$ (Figure \@ref(fig:Fig3SegStream)), $a$, is $t_3 - u_1$, while the downstream-only distance between $s_2$ and $t_3$, $b$, is $s_2 - u_1$.  For FC sites, again determined by the binary IDs, the downstream-only distance from $s_2$ to $r_1$ is $s_2-r_1>0$, while $r_1-s_2=0$. In fact, for any set of $n$ locations, the directional distances can be stored in an asymmetric $n \times n$ matrix, which stores the distance to the common junction. In addition, the total stream distance between locations is generated by adding the transpose of the $n \times n$ matrix, to itself. Thus, everything required to construct the models described below is contained in this asymmetric matrix.
+
+## Additive Function
+
+Let $\Omega(x)$ be an additive function on a stream network; that is, $\Omega(x)$ is constant within a stream segment, but then $\Omega(x)$ is the sum of each segment's value when two segments join at a junction. (Figure \@ref(fig:FigAdditiveFunction)). 
+
+```{r, FigAdditiveFunction, out.width='70%', fig.align='center', echo = FALSE, fig.pos = 'h', fig.cap='The additive function.'}
+knitr::include_graphics('/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/FigAdditiveFunction.png')
+```
+
+
