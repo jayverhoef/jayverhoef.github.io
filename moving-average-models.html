@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Spatial Statistics for Stream Networks</title>
+  <meta name="description" content="Theory and software for spatial stream network models">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Spatial Statistics for Stream Networks" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Theory and software for spatial stream network models" />
+  <meta name="github-repo" content="rstudio/SpatStatStreamNet" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Spatial Statistics for Stream Networks" />
+  
+  <meta name="twitter:description" content="Theory and software for spatial stream network models" />
+  
+
+<meta name="author" content="Jay M. Ver Hoef, Erin E. Peterson, Daniel J. Isaak">
+
+
+<meta name="date" content="2018-12-02">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="topology-and-distance.html">
+<link rel="next" href="spatial-linear-model.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Spatial Statistics for Stream Networks</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software"><i class="fa fa-check"></i>Software</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#authors"><i class="fa fa-check"></i>Authors</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgments"><i class="fa fa-check"></i>Acknowledgments</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#motivating-example"><i class="fa fa-check"></i><b>1.1</b> Motivating Example</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#why-stream-network-models"><i class="fa fa-check"></i><b>1.2</b> Why Stream Network Models?</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="topology-and-distance.html"><a href="topology-and-distance.html"><i class="fa fa-check"></i><b>2</b> Topology and Distance</a><ul>
+<li class="chapter" data-level="2.1" data-path="topology-and-distance.html"><a href="topology-and-distance.html#StreamTopo"><i class="fa fa-check"></i><b>2.1</b> Stream Topology</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="topology-and-distance.html"><a href="topology-and-distance.html#StreamsR"><i class="fa fa-check"></i><b>2.1.1</b> Streams in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="topology-and-distance.html"><a href="topology-and-distance.html#DualCoord"><i class="fa fa-check"></i><b>2.2</b> Dual Coordinate Systems</a></li>
+<li class="chapter" data-level="2.3" data-path="topology-and-distance.html"><a href="topology-and-distance.html#StreamDist"><i class="fa fa-check"></i><b>2.3</b> Stream Distance</a></li>
+<li class="chapter" data-level="2.4" data-path="topology-and-distance.html"><a href="topology-and-distance.html#additive-function"><i class="fa fa-check"></i><b>2.4</b> Additive Function</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="moving-average-models.html"><a href="moving-average-models.html"><i class="fa fa-check"></i><b>3</b> Moving Average Models</a><ul>
+<li class="chapter" data-level="3.1" data-path="moving-average-models.html"><a href="moving-average-models.html#DiscreteTS"><i class="fa fa-check"></i><b>3.1</b> Discrete Time Series</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="moving-average-models.html"><a href="moving-average-models.html#definition-and-construction"><i class="fa fa-check"></i><b>3.1.1</b> Definition and Construction</a></li>
+<li class="chapter" data-level="3.1.2" data-path="moving-average-models.html"><a href="moving-average-models.html#MomentsDiscreteTS"><i class="fa fa-check"></i><b>3.1.2</b> Properties</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="moving-average-models.html"><a href="moving-average-models.html#continuous-time-series"><i class="fa fa-check"></i><b>3.2</b> Continuous Time Series</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="moving-average-models.html"><a href="moving-average-models.html#definition-and-construction-1"><i class="fa fa-check"></i><b>3.2.1</b> Definition and Construction</a></li>
+<li class="chapter" data-level="3.2.2" data-path="moving-average-models.html"><a href="moving-average-models.html#properties"><i class="fa fa-check"></i><b>3.2.2</b> Properties</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="moving-average-models.html"><a href="moving-average-models.html#TUModels"><i class="fa fa-check"></i><b>3.3</b> Tail-up Models</a></li>
+<li class="chapter" data-level="3.4" data-path="moving-average-models.html"><a href="moving-average-models.html#TDModels"><i class="fa fa-check"></i><b>3.4</b> Tail-Down Models</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html"><i class="fa fa-check"></i><b>4</b> Spatial Linear Model</a><ul>
+<li class="chapter" data-level="4.1" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#variance-components"><i class="fa fa-check"></i><b>4.1</b> Variance Components</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#euclidean-distance-models"><i class="fa fa-check"></i><b>4.1.1</b> Euclidean Distance Models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#semivariograms"><i class="fa fa-check"></i><b>4.2</b> Semivariograms</a></li>
+<li class="chapter" data-level="4.3" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#estimation"><i class="fa fa-check"></i><b>4.3</b> Estimation</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#quasi-models"><i class="fa fa-check"></i><b>4.3.1</b> Quasi Models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#prediction"><i class="fa fa-check"></i><b>4.4</b> Prediction</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#block-prediction"><i class="fa fa-check"></i><b>4.4.1</b> Block Prediction</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#model-diagnostics"><i class="fa fa-check"></i><b>4.5</b> Model Diagnostics</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Spatial Statistics for Stream Networks</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="moving-average-models" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Moving Average Models</h1>
+<style type="text/css">
+caption, .caption{
+  font-style:italic;
+  margin-top:0.5em;
+  margin-bottom:0.5em;
+  width:99%;
+  text-align: left;
+}
+body{
+  font-family: Times-Roman;
+  font-size: 11pt;
+}
+p {line-height: 2em;}
+tr:nth-child(even) {background-color: #f2f2f2;}
+th {
+    background-color: #4CAF50;
+    color: black;
+}
+p {
+padding-bottom: 15px;
+}
+
+</style>
+<p>We originally called these <em>spatial moving-average models</em> because they are analagous to moving average models in time series. They have also been called process convolution models. We review moving average models for time series to make the connection clear.</p>
+<div id="DiscreteTS" class="section level2">
+<h2><span class="header-section-number">3.1</span> Discrete Time Series</h2>
+<p>We start with the simplest case, and that which is most often used in time series; the discrete case (random variables defined on the set of integers). Then, we move to the case of continuous time.</p>
+<div id="definition-and-construction" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Definition and Construction</h3>
+<p>Let <span class="math inline">\(W_i\)</span> be a random variable at integer <span class="math inline">\(i\)</span>. A moving average is created by “smoothing,” or averaging, the <span class="math inline">\(W_i\)</span>. One approach smoothes the trailing <span class="math inline">\(\theta\)</span> variables, or those that came earlier in time,</p>
+<p><span class="math display" id="eq:tsZidef1">\[\begin{equation}
+Z_i = \frac{1}{\theta}\sum_{i-\theta+1}^i W_i
+\tag{3.1}
+\end{equation}\]</span></p>
+<p>Let’s create some random variables from moving averages in <strong>R</strong>, using <span class="math inline">\(\theta = 5\)</span>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># set random number seed so reproducible</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">set.seed</span>(<span class="dv">1001</span>)</a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co"># set number of independent random variables</span></a>
+<a class="sourceLine" id="cb2-4" title="4">N =<span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co"># create independent random variables</span></a>
+<a class="sourceLine" id="cb2-6" title="6">W =<span class="st"> </span><span class="kw">rnorm</span>(N)</a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co"># set length of moving average</span></a>
+<a class="sourceLine" id="cb2-8" title="8">theta =<span class="st"> </span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co"># create an empty vector to hold newly created variables</span></a>
+<a class="sourceLine" id="cb2-10" title="10">Z =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="dt">times =</span> <span class="dv">20</span> <span class="op">-</span><span class="st"> </span>theta <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="co"># create moving averages</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="cf">for</span>(i <span class="cf">in</span> theta<span class="op">:</span>N)</a>
+<a class="sourceLine" id="cb2-13" title="13">    Z[i <span class="op">-</span><span class="st"> </span>theta <span class="op">+</span><span class="st"> </span><span class="dv">1</span>] =<span class="st"> </span><span class="kw">mean</span>(W[(i <span class="op">-</span><span class="st"> </span>theta <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>i])</a></code></pre></div>
+<p>A plot of both <span class="math inline">\(W_i\)</span> and <span class="math inline">\(Z_i\)</span> is given in Figure <a href="moving-average-models.html#fig:simpleMAdemo">3.1</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:simpleMAdemo"></span>
+<img src="SpatStatStreamNet_files/figure-html/simpleMAdemo-1.png" alt="Creating moving average random variables, $Z_i$ (black circles), by averaging independent random variables, $W_i$ (gray circles)." width="60%" />
+<p class="caption">
+Figure 3.1: Creating moving average random variables, <span class="math inline">\(Z_i\)</span> (black circles), by averaging independent random variables, <span class="math inline">\(W_i\)</span> (gray circles).
+</p>
+</div>
+<p>Notice that the moving-average random variables, in black, are <em>autocorrelated</em>. By autocorrelated, we mean that when <span class="math inline">\(Z_i\)</span> and <span class="math inline">\(Z_j\)</span> that are closer together, they are generally more similar than if they are farther apart. Basically, we are taking random variables that are independent, the <span class="math inline">\(W\)</span>’s, and, by smoothing them, creating autocorrelation. The autocorrelation occurs because the constructed random variables, <span class="math inline">\(Z\)</span>’s, can share the same underlying <span class="math inline">\(W\)</span>’s, and the closer the <span class="math inline">\(Z\)</span>’s are, the more <span class="math inline">\(W\)</span>’s they have in common. In <strong>R</strong>, we compute the autocorrelation function for a long time series and compute the empirical autocorrelation function.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># set random number seed so reproducible</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw">set.seed</span>(<span class="dv">1001</span>)</a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co"># set number of independent random variables</span></a>
+<a class="sourceLine" id="cb3-4" title="4">N =<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co"># create independent random variables</span></a>
+<a class="sourceLine" id="cb3-6" title="6">W =<span class="st"> </span><span class="kw">rnorm</span>(N)</a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co"># set length of moving average</span></a>
+<a class="sourceLine" id="cb3-8" title="8">theta =<span class="st"> </span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="co"># create an empty vector to hold newly created variables</span></a>
+<a class="sourceLine" id="cb3-10" title="10">Z =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="dt">times =</span> <span class="dv">20</span> <span class="op">-</span><span class="st"> </span>theta <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co"># create moving averages</span></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="cf">for</span>(i <span class="cf">in</span> theta<span class="op">:</span>N)</a>
+<a class="sourceLine" id="cb3-13" title="13">    Z[i <span class="op">-</span><span class="st"> </span>theta <span class="op">+</span><span class="st"> </span><span class="dv">1</span>] =<span class="st"> </span><span class="kw">mean</span>(W[(i <span class="op">-</span><span class="st"> </span>theta <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>i])</a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="kw">plot</span>(<span class="kw">acf</span>(W))</a></code></pre></div>
+<p><img src="SpatStatStreamNet_files/figure-html/unnamed-chunk-7-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">plot</span>(<span class="kw">acf</span>(Z))</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:empACFlwsTS"></span>
+<img src="SpatStatStreamNet_files/figure-html/empACFlwsTS-1.png" alt="Empirical autocorrelation function for $\{Z_i\}$." width="80%" />
+<p class="caption">
+Figure 3.2: Empirical autocorrelation function for <span class="math inline">\(\{Z_i\}\)</span>.
+</p>
+</div>
+<p>The empirical autocorrelation function shows that autocorrelation drops to zero at distance <span class="math inline">\(\theta\)</span> and beyond because the constructed random variables do not share any <span class="math inline">\(W\)</span>’s.</p>
+<p>Another way to write <a href="moving-average-models.html#eq:tsZidef1">(3.1)</a> is</p>
+<p><span class="math display">\[
+Z_i = \sum_{i - \theta + 1}^i \omega_i W_i,
+\]</span></p>
+<p>where <span class="math inline">\(\omega_i\)</span> is the weight <span class="math inline">\(1/\theta\)</span>. More generally, we can think of the weights <span class="math inline">\(\omega_i\)</span> as a function on the integers from <span class="math inline">\((-\theta + 1)\)</span> to <span class="math inline">\(0\)</span>, and <span class="math inline">\(0\)</span> outside of those limits,</p>
+<p><span class="math display" id="eq:gDefDiscrete">\[\begin{equation}
+g(j;\theta) = \omega_j \mathcal{I}(-\theta &lt; j \le 0),
+\tag{3.2}
+\end{equation}\]</span></p>
+<p>for <span class="math inline">\(j \in \mathbb{Z}\)</span>, where <span class="math inline">\(\mathbb{Z}\)</span> are the integers and <span class="math inline">\(\mathcal{I}(a)\)</span> is the indicator function, equal to 1 if its argument <span class="math inline">\(a\)</span> is true, otherwise it is <span class="math inline">\(0\)</span>. Note that <span class="math inline">\(g(j;\theta)\)</span> is defined on all integers, but <span class="math inline">\(g(j;\theta)\)</span> sets the values to <span class="math inline">\(0\)</span> outside of the range <span class="math inline">\(0\)</span> to <span class="math inline">\(-\theta\)</span>, which is convenient because we do not need to specify limits in the following,</p>
+<p><span class="math display" id="eq:tsZidef2">\[\begin{equation} 
+Z_i = \sum_{-\infty}^\infty g(j - i; \theta) W_i.
+\tag{3.3}
+\end{equation}\]</span></p>
+<p>If <span class="math inline">\(\omega_j = 1/\theta\)</span> in <span class="math inline">\(g(j;\theta)\)</span>, then <a href="moving-average-models.html#eq:tsZidef2">(3.3)</a> is exactly equal to <a href="moving-average-models.html#eq:tsZidef1">(3.1)</a>. We write it this way because it will help clarify the connection to continuous time, and ultimately stream networks, in the next few sections. The function <span class="math inline">\(g(j;\theta)\)</span> can be made quite flexible. Already, <span class="math inline">\(\theta\)</span> is a parameter that controls the range of autocorrelation, but we can allow <span class="math inline">\(\omega_j\)</span> in <span class="math inline">\(g(j;\theta)\)</span> to vary in some way. Let</p>
+<p><span class="math display" id="eq:gellandgs">\[\begin{align}
+g_\ell(j;\theta) &amp;= \frac{1}{\theta} \mathcal{I}(-\theta &lt; j \le 0) \\
+g_s(j;\theta) &amp;= \left(1-\frac{|j|}{\theta}\right) \mathcal{I}(-\theta &lt; j \le 0)
+\tag{3.4}
+\end{align}\]</span></p>
+<p>Some <strong>R</strong> code to explore is given below, where we implement <span class="math inline">\(g_s(j;\theta)\)</span> in <a href="moving-average-models.html#eq:gellandgs">(3.4)</a>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># set random number seed so reproducible</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">set.seed</span>(<span class="dv">1015</span>)</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co"># moving average function</span></a>
+<a class="sourceLine" id="cb5-4" title="4">g_s =<span class="st"> </span><span class="cf">function</span>(j, theta){(<span class="dv">1</span><span class="op">-</span><span class="kw">abs</span>(j)<span class="op">/</span>theta)<span class="op">*</span>(<span class="op">-</span>theta <span class="op">&lt;=</span><span class="st"> </span>j <span class="op">&amp;</span><span class="st"> </span>j <span class="op">&lt;=</span><span class="st"> </span><span class="dv">0</span>)}</a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co">#set theta</span></a>
+<a class="sourceLine" id="cb5-6" title="6">theta =<span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co"># set number of independent random variables</span></a>
+<a class="sourceLine" id="cb5-8" title="8">N =<span class="st"> </span><span class="dv">40</span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co"># create independent random variables</span></a>
+<a class="sourceLine" id="cb5-10" title="10">W =<span class="st"> </span><span class="kw">rnorm</span>(N)</a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="co"># create autocorrelated random variables Z. Because of trailing weights,</span></a>
+<a class="sourceLine" id="cb5-12" title="12"><span class="co"># (defined only for non-positive j), first Z_i is at theta</span></a>
+<a class="sourceLine" id="cb5-13" title="13">Z =<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="dt">times =</span> N)</a>
+<a class="sourceLine" id="cb5-14" title="14"><span class="cf">for</span>(i <span class="cf">in</span> theta<span class="op">:</span>N)</a>
+<a class="sourceLine" id="cb5-15" title="15">    Z[i] =<span class="st"> </span><span class="kw">sum</span>(<span class="kw">g_s</span>((<span class="dv">1</span><span class="op">:</span>N)<span class="op">-</span>i, theta)<span class="op">*</span>W)</a></code></pre></div>
+<p>The results are plotted (Figure <a href="moving-average-models.html#fig:discreteMAF2positions">3.3</a>), which shows the values of <span class="math inline">\(g_s(j-15,\theta); j = 1,\ldots,40\)</span> in the top panel as green circles, and the values of <span class="math inline">\(g_s(j-20,\theta); j = 1,\ldots,40\)</span> as purple circles. Note the <span class="math inline">\(j-i\)</span> argument defines <span class="math inline">\(Z_i\)</span> by “shifting” the function forward <span class="math inline">\(i\)</span> integers, and we have shown it for <span class="math inline">\(i=15\)</span> and <span class="math inline">\(i=20\)</span> (with downward arrows). Figure <a href="moving-average-models.html#fig:discreteMAF2positions">3.3</a> also shows simulated values of <span class="math inline">\(W_i\)</span>, independent normal random variables with mean zero and variance 1, as gray circles in the middle panel. The resulting simulated <span class="math inline">\(Z_i\)</span>, for <span class="math inline">\(i = 10,\ldots,40\)</span>, using <a href="moving-average-models.html#eq:tsZidef2">(3.3)</a>, are shown in the bottom panel. For example, <span class="math inline">\(Z_{15}\)</span> is created by taking the weights given by the green circles, and multiplying each weight times the <span class="math inline">\(W_j\)</span> just below it, and then summing these products, yielding <span class="math inline">\(Z_{15}\)</span>. A random variable for each <span class="math inline">\(i, i=10,\ldots,40\)</span> was created in this way by simply shifting <span class="math inline">\(g_s(j-i,\theta)\)</span> for each <span class="math inline">\(i\)</span>. The random number seed is shown so that you can obtain these exact results. You can also try various sample sizes, different <span class="math inline">\(g(j,\theta)\)</span>, etc., to better understand how moving averages work.</p>
+<div class="figure" style="text-align: center"><span id="fig:discreteMAF2positions"></span>
+<img src="SpatStatStreamNet_files/figure-html/discreteMAF2positions-1.png" alt="Moving average function, $g_s(j-15,\theta)$, operating on W's, resulting in $\{Z_i\}$." width="90%" />
+<p class="caption">
+Figure 3.3: Moving average function, <span class="math inline">\(g_s(j-15,\theta)\)</span>, operating on W’s, resulting in <span class="math inline">\(\{Z_i\}\)</span>.
+</p>
+</div>
+</div>
+<div id="MomentsDiscreteTS" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Properties</h3>
+<p>What properties do the moving average functions give to the random variables, <span class="math inline">\(\{Z_i\}\)</span>, when constructed using <a href="moving-average-models.html#eq:tsZidef2">(3.3)</a>? If <span class="math inline">\(E[W_i] = 0 \ \forall \ i\)</span>, then <span class="math inline">\(E[Z_i] = 0\)</span> for either <span class="math inline">\(g(j;\theta)\)</span> in <a href="moving-average-models.html#eq:gellandgs">(3.4)</a>. If the variance of <span class="math inline">\(W_i = 1 \ \forall \ i\)</span>, then the variance of <span class="math inline">\(Z_i\)</span> will be</p>
+<p><span class="math display" id="eq:discreteTSvar">\[\begin{equation}
+\textrm{var}[Z_i] = \sum_{j = -\infty}^\infty [g(j;\theta)]^2,
+\tag{3.5}
+\end{equation}\]</span></p>
+<p>and so if <span class="math inline">\(\{Z_i\}\)</span> is constructed with <span class="math inline">\(g_\ell(j;\theta)\)</span>, then <span class="math inline">\(\textrm{var}[Z_i] = 1/\theta\)</span>. If <span class="math inline">\(\{Z_i\}\)</span> is constructed with <span class="math inline">\(g_s(j;\theta)\)</span>, then <span class="math inline">\(\textrm{var}[Z_i] = (2\theta^2 + 3\theta + 1)/(6\theta)\)</span>. Note that we can always construct the random variables with mean <span class="math inline">\(0\)</span> and variance <span class="math inline">\(1\)</span> for <span class="math inline">\(W\)</span>, and then add a mean, and scale the newly constructed random variables, afterwards, to obtain any desired mean and variance. The autocovariance between <span class="math inline">\(Z_i\)</span> and <span class="math inline">\(Z_{i + h}\)</span> is</p>
+<p><span class="math display" id="eq:discreteTScov">\[\begin{equation}
+C(h;\theta) \equiv \textrm{cov}[Z_i, Z_{i + h}] = \sum_{j = -\infty}^\infty g(j;\theta)g(j - h;\theta).
+\tag{3.6}
+\end{equation}\]</span></p>
+<p>Consider <span class="math inline">\(g_\ell(j;\theta)\)</span>, then <span class="math inline">\(C_\ell(h;\theta) = (1 - h/\theta)/\theta\)</span>. The autocorrelation function is</p>
+<p><span class="math display" id="eq:theoACFts">\[\begin{equation}
+\rho(h;\theta) \equiv \frac{C(h;\theta)}{\sqrt{\textrm{var}(Z_i)\textrm{var}(Z_{i+h})}},
+\tag{3.7}
+\end{equation}\]</span></p>
+<p>so <span class="math inline">\(\rho_\ell(h;\theta) = (1 - h/\theta)\)</span>. A plot of <span class="math inline">\(\rho_\ell(h;\theta)\)</span>, for <span class="math inline">\(\theta = 5\)</span>, is</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">rho_ell =<span class="st"> </span><span class="cf">function</span>(h, theta){(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>h<span class="op">/</span>theta)<span class="op">*</span>(h <span class="op">&lt;</span><span class="st"> </span>theta)}</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="kw">plot</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">6</span>, <span class="kw">rho_ell</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">6</span>, <span class="dv">5</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">cex =</span> <span class="dv">3</span>, <span class="dt">cex.lab =</span> <span class="dv">2</span>, <span class="dt">cex.axis =</span> <span class="fl">1.5</span>,</a>
+<a class="sourceLine" id="cb6-4" title="4">    <span class="dt">xlab =</span> <span class="st">&#39;Lag h&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Autocorrelation&#39;</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:theoACFlwsTS"></span>
+<img src="SpatStatStreamNet_files/figure-html/theoACFlwsTS-1.png" alt="Theoretical autocorrelation function for $\{Z_i\}$." width="60%" />
+<p class="caption">
+Figure 3.4: Theoretical autocorrelation function for <span class="math inline">\(\{Z_i\}\)</span>.
+</p>
+</div>
+<p>Now compare Figure <a href="moving-average-models.html#fig:empACFlwsTS">3.2</a> with Figure <a href="moving-average-models.html#fig:theoACFlwsTS">3.4</a>. The empirical autocorrelation function on simulated data estimates the theoretical one derived from <a href="moving-average-models.html#eq:theoACFts">(3.7)</a>. For the moving average function <span class="math inline">\(g_s(j;\theta)\)</span>, the theoretical autocovariance function is</p>
+<p><span class="math display">\[
+C_s(h,\theta) = \frac{(\theta-h)(\theta-h+1)(2\theta + h + 1)}{6\theta^2}
+\]</span></p>
+<p>and so the autocorrelation function is</p>
+<p><span class="math display">\[
+\rho_s(h,\theta) = \frac{(\theta-h)(\theta-h+1)(2\theta + h + 1)}{2\theta^3 + 3\theta^2 + \theta}
+\]</span></p>
+<p>A plot of <span class="math inline">\(\rho_s(h;\theta)\)</span>, for <span class="math inline">\(\theta = 5\)</span>, is</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">rho_s =<span class="st"> </span><span class="cf">function</span>(h, theta){((theta <span class="op">-</span><span class="st"> </span>h)<span class="op">*</span>(theta <span class="op">-</span><span class="st"> </span>h <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">*</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="st">    </span>(<span class="dv">2</span><span class="op">*</span>theta <span class="op">+</span><span class="st"> </span>h <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))<span class="op">*</span>(h <span class="op">&lt;</span><span class="st"> </span>theta)<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>theta<span class="op">^</span><span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="dv">3</span><span class="op">*</span>theta<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>theta)}</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="kw">plot</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">6</span>, <span class="kw">rho_s</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">6</span>, <span class="dv">5</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">cex =</span> <span class="dv">3</span>, <span class="dt">cex.lab =</span> <span class="dv">2</span>, <span class="dt">cex.axis =</span> <span class="fl">1.5</span>,</a>
+<a class="sourceLine" id="cb7-5" title="5">    <span class="dt">xlab =</span> <span class="st">&#39;Lag h&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Autocorrelation&#39;</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:theoACFsphTS"></span>
+<img src="SpatStatStreamNet_files/figure-html/theoACFsphTS-1.png" alt="Theoretical autocorrelation function for $\{Z_i\}$ when using $g_s(h;\theta)$." width="60%" />
+<p class="caption">
+Figure 3.5: Theoretical autocorrelation function for <span class="math inline">\(\{Z_i\}\)</span> when using <span class="math inline">\(g_s(h;\theta)\)</span>.
+</p>
+</div>
+<p>One very important result is that the mean, variance, autocovariance, and autocorrelation functions do not change if the moving average function is translated or flipped. Again consider <span class="math inline">\(g_s(j;\theta)\)</span> in <a href="moving-average-models.html#eq:gellandgs">(3.4)</a>, which are the weights given in green in Figure <a href="moving-average-models.html#fig:MAFsphFlip">3.6</a>. Now let</p>
+<p><span class="math display">\[
+g_{s1}(j;\theta) = \left(\frac{j}{\theta}\right) \mathcal{I}(0 \le j \le \theta) \\
+g_{s2}(j;\theta) = \left(1-\frac{|j|}{\theta}\right) \mathcal{I}(0 \le j \le \theta).
+\]</span>
+Let’s create these functions in <strong>R</strong>,</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">g_s1 =<span class="st"> </span><span class="cf">function</span>(j, theta){(j<span class="op">/</span>theta)<span class="op">*</span>(<span class="dv">0</span> <span class="op">&lt;=</span><span class="st"> </span>j <span class="op">&amp;</span><span class="st"> </span>j <span class="op">&lt;=</span><span class="st"> </span>theta)}</a>
+<a class="sourceLine" id="cb8-2" title="2">g_s2 =<span class="st"> </span><span class="cf">function</span>(j, theta){(<span class="dv">1</span><span class="op">-</span><span class="kw">abs</span>(j)<span class="op">/</span>theta)<span class="op">*</span>(<span class="dv">0</span> <span class="op">&lt;=</span><span class="st"> </span>j <span class="op">&amp;</span><span class="st"> </span>j <span class="op">&lt;=</span><span class="st"> </span>theta)}</a></code></pre></div>
+<p>For <span class="math inline">\(g_{s1}(j;\theta)\)</span>, the moving average function is translated from <span class="math inline">\(g_{s}(j;\theta)\)</span> to the integers with positive values. For example, Figure <a href="moving-average-models.html#fig:MAFsphFlip">3.6</a> shows <span class="math inline">\(g_{s}(j-15;\theta)\)</span> as green circles, which are exactly the same as in Figure <a href="moving-average-models.html#fig:discreteMAF2positions">3.3</a>). For <span class="math inline">\(g_{s1}(j-15;\theta)\)</span>, whose weights are shown as purple circles in Figure <a href="moving-average-models.html#fig:MAFsphFlip">3.6</a>, the moving average function <span class="math inline">\(g_{s}(j;\theta)\)</span> has been translated to the right (yet still defines <span class="math inline">\(Z_{15}\)</span>). Although the simulated <span class="math inline">\(Z_15\)</span> will obviously be different, the mean, variance, autocovariance, and autocorrelation are exactly the same for <span class="math inline">\(g_{s}(j;\theta)\)</span> and <span class="math inline">\(g_{s1}(j;\theta)\)</span>. The same is true if <span class="math inline">\(g_{s}(j;\theta)\)</span> is flipped. For <span class="math inline">\(g_{s2}(j-15;\theta)\)</span>, whose weights are shown as gold circles in Figure <a href="moving-average-models.html#fig:MAFsphFlip">3.6</a>, the moving average function <span class="math inline">\(g_{s}(j;\theta)\)</span> has been flipped (yet again defines <span class="math inline">\(Z_{15}\)</span>). The statistical properties of <span class="math inline">\(\{Z_i\}\)</span> are the same for all 3 of the moving average functions shown in Figure <a href="moving-average-models.html#fig:MAFsphFlip">3.6</a>. This is interesting because we will see that translation and flipping matter for stream networks.</p>
+<div class="figure" style="text-align: center"><span id="fig:MAFsphFlip"></span>
+<img src="SpatStatStreamNet_files/figure-html/MAFsphFlip-1.png" alt="Three moving average functions -- $g_s(j-15;\theta)$ in green, $g_{s1}(j-15;\theta)$ in purple, and $g_{s2}(j-15;\theta)$ in gold -- that yield the same mean, variance, autocovariance, and autocorrelation." width="90%" />
+<p class="caption">
+Figure 3.6: Three moving average functions – <span class="math inline">\(g_s(j-15;\theta)\)</span> in green, <span class="math inline">\(g_{s1}(j-15;\theta)\)</span> in purple, and <span class="math inline">\(g_{s2}(j-15;\theta)\)</span> in gold – that yield the same mean, variance, autocovariance, and autocorrelation.
+</p>
+</div>
+</div>
+</div>
+<div id="continuous-time-series" class="section level2">
+<h2><span class="header-section-number">3.2</span> Continuous Time Series</h2>
+<p>Now, let us extend what we learned in Section <a href="moving-average-models.html#DiscreteTS">3.1</a> to continuous time.</p>
+<div id="definition-and-construction-1" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Definition and Construction</h3>
+<p><span class="citation">Yaglom (<a href="#ref-Yagl:corr:1987">1987</a>)</span> shows that a large class of autocovariances can be developed by creating random variables as the integration of a moving-average function over a white-noise random process,</p>
+<p><span class="math display" id="eq:Zdef">\[\begin{equation} 
+    Z(s) = \int_{-\infty}^{\infty}g(x-s;\boldsymbol{\theta})dW(x),
+    \tag{3.8}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(x\)</span> and <span class="math inline">\(s\)</span> are locations on the real line and <span class="math inline">\(g(x;\boldsymbol{\theta})\)</span> is called the moving-average function defined on <span class="math inline">\(\mathcal{R}^{1}\)</span>. Equation <a href="moving-average-models.html#eq:Zdef">(3.8)</a> looks a little intimidating, but we can break it down and rely on what we learned in Section <a href="moving-average-models.html#DiscreteTS">3.1</a>. First, <span class="math inline">\(g(x;\boldsymbol{\theta})\)</span> is defined on continuous <span class="math inline">\(x\)</span>, but otherwise is exactly analogous to <a href="moving-average-models.html#eq:gDefDiscrete">(3.2)</a>, which was defined on the integers. Next, consider <span class="math inline">\(dW(x)\)</span>, which is a “Brownian motion differential.” First, look again at <a href="moving-average-models.html#eq:tsZidef2">(3.3)</a> and remove the stipulation that <span class="math inline">\(g(j;\theta)\)</span> is defined on integers, and replace it with <span class="math inline">\(g(x;\theta)\)</span> that is now defined on a regular sequence on the real line. Then imagine that we start making that sequence finer and finer, packing more and more <span class="math inline">\(W_i\)</span> per unit of length. If the definition of <span class="math inline">\(g(x;\theta)\)</span> stays constant, then the variance will grow and grow because we are summing more and more <span class="math inline">\(W_i\)</span>. In order to get to a continuous version of <span class="math inline">\(W_i\)</span>, their variances must shrink as we pack them tighter and tighter. Althought the mathematics are deep and intricate, for practical purposes we can think of <span class="math inline">\(dW(x)\)</span> as the continuous analog to <span class="math inline">\(W_i\)</span> where they get very dense and their variances shrink in just the right way. In the same way, the integral <span class="math inline">\(\int\)</span> in <a href="moving-average-models.html#eq:Zdef">(3.8)</a> simply replaces the <span class="math inline">\(\sum\)</span> in <a href="moving-average-models.html#eq:tsZidef2">(3.3)</a>. If it is simpler, one can just think of <a href="moving-average-models.html#eq:Zdef">(3.8)</a> as a limit as <a href="moving-average-models.html#eq:tsZidef2">(3.3)</a> gets really dense within an area (that is, the <span class="math inline">\(\infty\)</span>-limits of <a href="moving-average-models.html#eq:tsZidef2">(3.3)</a> are within a interval on the real line, rather than on the integers). Hence, the construction of moving averages for continuous time is a complete analog to discrete time. The result is that we have a <em>random function</em> rather than a finite set of random variables. This is shown by the notation that <span class="math inline">\(Z(s)\)</span> <em>is</em> a function, defined everywhere on the real line; that is, at any <span class="math inline">\(s \in \mathcal{R}^1\)</span>.</p>
+<p>What do some of these moving average functions, <span class="math inline">\(g(x;\boldsymbol{\theta})\)</span>, look like? A set of 5 of them, which will carry over to stream networks, is given in Table <a href="moving-average-models.html#tab:MAFunctions">3.1</a>.</p>
+<table>
+<caption><span id="tab:MAFunctions">Table 3.1: </span>Moving average functions.</caption>
+<thead>
+<tr class="header">
+<th align="left">Name</th>
+<th align="center">Moving average function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Linear-with-sill</td>
+<td align="center"><span class="math inline">\(g_{lws}(x;\boldsymbol{\theta}) = \theta_p \mathcal{I}(0 \leq x/\theta_r \leq 1)\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">Spherical</td>
+<td align="center"><span class="math inline">\(g_{sph}(x;\boldsymbol{\theta}) = \theta_p(1 - x/\theta_r) \mathcal{I}(0 \leq x/\theta_r \leq 1)\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">Epanechnikov</td>
+<td align="center"><span class="math inline">\(g_{epa}(x;\boldsymbol{\theta}) = \theta_p(1 - x/\theta_r)^2 \mathcal{I}(0 \leq x/\theta_r \leq 1)\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">Exponential</td>
+<td align="center"><span class="math inline">\(g_{exp}(x;\boldsymbol{\theta}) = \theta_pe^{-x/\theta_r} I(0 \leq x)\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">Mariah</td>
+<td align="center"><span class="math inline">\(g_{mar}(x;\boldsymbol{\theta}) = \theta_p\frac{1}{1 + x/\theta_r } I(0 \leq x)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>In <strong>R</strong>, we create each function,</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">g_lws =<span class="st"> </span><span class="cf">function</span>(x, theta){(<span class="dv">1</span>)<span class="op">*</span>(<span class="dv">0</span> <span class="op">&lt;=</span><span class="st"> </span>x <span class="op">&amp;</span><span class="st"> </span>x <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1</span>)}</a>
+<a class="sourceLine" id="cb9-2" title="2">g_sph =<span class="st"> </span><span class="cf">function</span>(x, theta){(<span class="dv">1</span><span class="op">-</span>x<span class="op">/</span>theta)<span class="op">*</span>(<span class="dv">0</span> <span class="op">&lt;=</span><span class="st"> </span>x <span class="op">&amp;</span><span class="st"> </span>x <span class="op">&lt;=</span><span class="st"> </span>theta)}</a>
+<a class="sourceLine" id="cb9-3" title="3">g_epa =<span class="st"> </span><span class="cf">function</span>(x, theta){(<span class="dv">1</span><span class="op">-</span>x<span class="op">/</span>theta)<span class="op">^</span><span class="dv">2</span><span class="op">*</span>(<span class="dv">0</span> <span class="op">&lt;=</span><span class="st"> </span>x <span class="op">&amp;</span><span class="st"> </span>x <span class="op">&lt;=</span><span class="st"> </span>theta)}</a>
+<a class="sourceLine" id="cb9-4" title="4">g_exp =<span class="st"> </span><span class="cf">function</span>(x, theta){<span class="kw">exp</span>(<span class="op">-</span>x<span class="op">/</span>theta)<span class="op">*</span>(<span class="dv">0</span> <span class="op">&lt;=</span><span class="st"> </span>x)}</a>
+<a class="sourceLine" id="cb9-5" title="5">g_mar =<span class="st"> </span><span class="cf">function</span>(x, theta){<span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>x<span class="op">/</span>theta)<span class="op">*</span>(<span class="dv">0</span> <span class="op">&lt;=</span><span class="st"> </span>x)}</a></code></pre></div>
+<p>A graph of each function is given in Figure <a href="moving-average-models.html#fig:all5MAF">3.7</a> for <span class="math inline">\(\theta_p = 1\)</span> and <span class="math inline">\(\theta_r = 1\)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:all5MAF"></span>
+<img src="SpatStatStreamNet_files/figure-html/all5MAF-1.png" alt="la te da" width="80%" />
+<p class="caption">
+Figure 3.7: la te da
+</p>
+</div>
+<p>To help visualize the construction of <span class="math inline">\(Z(s)\)</span> in <a href="moving-average-models.html#eq:Zdef">(3.8)</a>, we provide Figure <a href="moving-average-models.html#fig:ContinuousMAF">3.8</a> as the continuous version of Figure <a href="moving-average-models.html#fig:discreteMAF2positions">3.3</a>. The weights are provided in the top panel of Figure <a href="moving-average-models.html#fig:ContinuousMAF">3.8</a>. Note that the constructions at locations <span class="math inline">\(x = 0.1\)</span> and <span class="math inline">\(x = 0.2\)</span>, shown in green, the weights are only forward of <span class="math inline">\(Z(0.1)\)</span> and <span class="math inline">\(Z(0.2)\)</span>, respectively. The product of these weights and white noise, <span class="math inline">\(dW(x)\)</span>, are integrated to provide the random value. We do not show any units for <span class="math inline">\(dW(x)\)</span> because they are infinitesimally small (and infinitely dense). We do not show any units for <span class="math inline">\(Z(x)\)</span> because it can be scaled to any variance, and we show more about its properties in the next section. Note that <span class="math inline">\(Z(x)\)</span> is continuous, so it is a random function, shown in green for <span class="math inline">\(g_{sph}(x,\theta)\)</span> when the weights are forward. When we flip the weights around, so that they point backward, as shown by the purple functions in the top panel, we obtain an mirror image of the random function (for fixed <span class="math inline">\(dW(x)\)</span>) as the purple function in the bottom panel. The consequence of flipping the function will be discussed in the next section.</p>
+<div class="figure" style="text-align: center"><span id="fig:ContinuousMAF"></span>
+<img src="SpatStatStreamNet_files/figure-html/ContinuousMAF-1.png" alt="Moving average function, $g_{sph}(x-s,\theta)$, integrated against _dW(x)_, resulting in _Z(x)_. We show the construction for _x = 0.1, 0.2, 0.8, and 0.9_. For _x = 0.1, 0.2_, colored in green, the weights are only **forward** from the location of the constructed random variable. For _x = 0.8, 0.9_, colored in purple, the weights are only **backward** from the location of the constructed random varible." width="90%" />
+<p class="caption">
+Figure 3.8: Moving average function, <span class="math inline">\(g_{sph}(x-s,\theta)\)</span>, integrated against <em>dW(x)</em>, resulting in <em>Z(x)</em>. We show the construction for <em>x = 0.1, 0.2, 0.8, and 0.9</em>. For <em>x = 0.1, 0.2</em>, colored in green, the weights are only <strong>forward</strong> from the location of the constructed random variable. For <em>x = 0.8, 0.9</em>, colored in purple, the weights are only <strong>backward</strong> from the location of the constructed random varible.
+</p>
+</div>
+</div>
+<div id="properties" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Properties</h3>
+<p>Now, what about properties of the construction in <a href="moving-average-models.html#eq:Zdef">(3.8)</a>? In Section <a href="moving-average-models.html#MomentsDiscreteTS">3.1.2</a> we showed the expectation, variance, autocovariance, and autocorrelation for discrete time series under a moving average construction. Generally, white noise is assumed to have mean 0, so</p>
+<p><span class="math display">\[
+\textrm{E}[Z(s)] = 0.
+\]</span></p>
+<p>The variance is</p>
+<p><span class="math display" id="eq:squareInt">\[\begin{equation}
+\textrm{var}[Z(s)] = E[Z(s)^2]=\int_{-\infty}^{\infty}g(x;\boldsymbol{\theta})^2dx.
+\tag{3.9}
+\end{equation}\]</span></p>
+<p>Notice that for the variance to exist, <a href="moving-average-models.html#eq:squareInt">(3.9)</a> must exist; in other words, <span class="math inline">\(g(x;\boldsymbol{\theta})\)</span> must not have too much area under the curve. This condition is often stated by saying that <span class="math inline">\(g(x;\boldsymbol{\theta})\)</span> is “square integrable.”</p>
+<p>What about the autocovariance and autocorrelation? The moving-average construction <a href="moving-average-models.html#eq:Zdef">(3.8)</a> allows a valid autocovariance between <span class="math inline">\(Z(s)\)</span> and <span class="math inline">\(Z(s+h)\)</span> to be expressed as</p>
+<p><span class="math display" id="eq:moveave">\[\begin{equation} 
+    C(h;\boldsymbol{\theta})= 
+        \int_{j = -\infty}^{\infty}g(x;\boldsymbol{\theta})g(x-h;\boldsymbol{\theta})dx.
+\tag{3.10}
+\end{equation}\]</span></p>
+<p>Once again, compare <a href="moving-average-models.html#eq:moveave">(3.10)</a> with <a href="moving-average-models.html#eq:discreteTScov">(3.6)</a> from discrete time series.</p>
+</div>
+</div>
+<div id="TUModels" class="section level2">
+<h2><span class="header-section-number">3.3</span> Tail-up Models</h2>
+<p>The moving average construction in <a href="moving-average-models.html#eq:Zdef">(3.8)</a> and <a href="moving-average-models.html#eq:moveave">(3.10)</a> is well-known for the continuous real line from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(\infty\)</span>, such as for time-series models. <span class="citation">Ver Hoef, Peterson, and Theobald (<a href="#ref-Ver:Pete:Theo:spat:2006">2006</a>)</span> and <span class="citation">Cressie et al. (<a href="#ref-Cres:Frey:Harc:Smit:spat:2006">2006</a>)</span> use moving averages for a stream network to develop models as in Figure <a href="moving-average-models.html#fig:FigTailUp3D1">3.9</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:FigTailUp3D1"></span>
+<img src="/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/graphTailUp3D.png" alt="Three locations on a stream network, $r_1$, $s_2$, $t_3$.  The tail-up moving-average functions are shown each location.  The moving average functions are integrated against white noise on a stream network, which is depicted as the ragged black lines on the stream network, given as blue lines. Autocorrelation is created when functions overlap.  The total area under the green function, going upstream from $r_1$, is constant, requiring a splitting of the function up each branch." width="70%" />
+<p class="caption">
+Figure 3.9: Three locations on a stream network, <span class="math inline">\(r_1\)</span>, <span class="math inline">\(s_2\)</span>, <span class="math inline">\(t_3\)</span>. The tail-up moving-average functions are shown each location. The moving average functions are integrated against white noise on a stream network, which is depicted as the ragged black lines on the stream network, given as blue lines. Autocorrelation is created when functions overlap. The total area under the green function, going upstream from <span class="math inline">\(r_1\)</span>, is constant, requiring a splitting of the function up each branch.
+</p>
+</div>
+<p>We call these the ``tail-up’’ models because they are unilateral in the upstream direction (moving average function values are positive only upstream from a location). In Figure , the moving average function goes upstream from <span class="math inline">\(r_1\)</span>. When it reaches a fork, at <span class="math inline">\(u_1\)</span>, the function continues up each branch, but it is weighted. For example, weights could be proportional to flow volume or other meaningful metrics.</p>
+<p>For the following development, let <span class="math inline">\(r_i\)</span> and <span class="math inline">\(s_j\)</span> denote two locations on a stream network, and let <span class="math inline">\(h\)</span> be the stream distance between them. For FC locations, from <a href="moving-average-models.html#eq:Zdef">(3.8)</a>, the unweighted covariance between two such locations is
+<span class="math display" id="eq:tailupcon">\[\begin{equation} 
+  C_t(h;\boldsymbol{\theta}) = \int_{h}^{\infty}g(x;\boldsymbol{\theta})g(x-h;\boldsymbol{\theta})dx, 
+  \tag{3.11}
+\end{equation}\]</span>
+where <span class="math inline">\(h\)</span> is the stream distance between locations <span class="math inline">\(r_i\)</span> and <span class="math inline">\(s_j\)</span>. As mentioned earlier, a unique feature of tail-up stream network models is the splitting of <span class="math inline">\(g(x;boldsymbol{\theta})\)</span> as it goes upstream (Figure <a href="moving-average-models.html#fig:FigTailUp3D1">3.9</a>, which is achieved by assigning a weighting attribute to each stream segment. To account for the splitting <span class="citation">(Ver Hoef, Peterson, and Theobald <a href="#ref-Ver:Pete:Theo:spat:2006">2006</a>; Cressie et al. <a href="#ref-Cres:Frey:Harc:Smit:spat:2006">2006</a>)</span>, <a href="moving-average-models.html#eq:Zdef">(3.8)</a> is modified to construct a spatial process on a stream network as
+<span class="math display">\[
+  Z(s_i;\boldsymbol{\theta}) = \int_{\vee_{s_i}} g(x-s_i;\boldsymbol{\theta}) \sqrt{\frac{\Omega(x)}{\Omega(s_i)}} dW(x),
+\]</span>
+where <span class="math inline">\(\Omega(x)\)</span> is an additive function that ensures stationarity in variance; that is, <span class="math inline">\(\Omega(x)\)</span> is constant within a stream segment, but then <span class="math inline">\(\Omega(x)\)</span> is the sum of each segment’s value when two segments join at a junction. (Figure ). This definition leads to <a href="moving-average-models.html#eq:moveaveup">(3.12)</a> where <span class="math inline">\(\pi_{i,j}=\sqrt{\Omega(s_j)/\Omega(r_i)}\)</span>. If two sites are FU, then their covariance is zero, by construction (Figure <a href="moving-average-models.html#fig:FigTailUp3D1">3.9</a>. Then the following tail-down covariance models have been developed using the moving average construction <span class="citation">(Ver Hoef, Peterson, and Theobald <a href="#ref-Ver:Pete:Theo:spat:2006">2006</a>)</span>:</p>
+<p><span class="math display" id="eq:moveaveup">\[\begin{equation} 
+    C_u(r_i,s_j|\boldsymbol{\theta}_u)=
+  \left\{ \begin{array}{ll} \pi_{i,j}C_t(h;\boldsymbol{\theta}_u) &amp;
+      \textrm{if $r_i$ and $s_j$ FC,} \\
+      0 &amp; \textrm{if $r_i$ and $s_j$ FU,}
+    \end{array} \right.
+    \tag{3.12}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\pi_{i,j}\)</span> are weights due to branching characteristics of the
+stream, and the function <span class="math inline">\(C_t(h;\boldsymbol{\theta}_u)\)</span> can take the following
+forms:</p>
+<p>we obtain the following tail-up models.</p>
+<ul>
+<li>Tail-up Linear-with-Sill Model:</li>
+</ul>
+<p><span class="math display">\[
+  C_t(h;\boldsymbol{\theta}_u)=
+  \sigma^2_u\left(1 -\frac{h}{\theta_r}\right)\mathcal{I}\left(\frac{h}{\theta_r}\leq 1\right).
+\]</span></p>
+<ul>
+<li>Tail-up Spherical Model,</li>
+</ul>
+<p><span class="math display">\[
+  C_t(h;\boldsymbol{\theta}_u)=
+  \sigma^2_u\left(1-\frac{3}{2}\frac{h}{\alpha_u}+\frac{1}{2}\frac{h^3}{\alpha_u^3}\right)
+  I\left(\frac{h}{\alpha_u}\leq 1\right),
+\]</span></p>
+<ul>
+<li>Tail-Up Exponential Model,</li>
+</ul>
+<p><span class="math display">\[
+  C_t(h;\boldsymbol{\theta}_u)= \sigma^2_u\exp(-3h/\alpha_u),
+\]</span></p>
+<ul>
+<li>Tail-up Mariah Model,</li>
+</ul>
+<p><span class="math display">\[
+  C_t(h;\boldsymbol{\theta}_u)= \left\{ \begin{array}{ll}
+      \sigma^2_u\left(\frac{\log(90h/\alpha_u+1)}{90h/\alpha_u}\right) &amp;
+      \textrm{if} \; h &gt; 0,\\
+      \sigma^2_u &amp;
+      \textrm{if} \; h = 0,\\
+    \end{array} \right.
+\]</span></p>
+<ul>
+<li>Tail-up Epanechnikov Model ,</li>
+</ul>
+<p><span class="math display">\[
+  C_t(h;\boldsymbol{\theta}_u)=
+      \frac{\sigma^2_u(h-\alpha_u)^2f_{eu}(h;\alpha_u)}{16\alpha_u^5} 
+    I\left(\frac{h}{\alpha_u}\leq 1\right),
+\]</span></p>
+<p>where <span class="math inline">\(f_{eu}(h;\alpha_u)=16\alpha_u^2 + 17\alpha_u^2h - 2\alpha_uh^2-h^3\)</span>, <span class="math inline">\(I(\cdot)\)</span> is the indicator function (equal to one when the argument is true), <span class="math inline">\(\sigma^2_u &gt; 0\)</span> is an overall variance parameter (also known as the partial sill), <span class="math inline">\(\alpha_u &gt; 0\)</span> is the range parameter, and <span class="math inline">\(;\boldsymbol{\theta}_u = (\sigma^2_u,\alpha_u)^\top\)</span>. Note the
+factors 3, and 90 for the exponential and Mariah models, respectively,
+which cause the autocorrelation to be approximately 0.05 when <span class="math inline">\(h\)</span>
+equals the range parameter, which helps compare range parameters
+(<span class="math inline">\(\alpha_u\)</span>) across models. (The distance at which autocorrelation
+reaches 0.05 is sometimes called the effective range when models
+approach zero asymptotically.)</p>
+</div>
+<div id="TDModels" class="section level2">
+<h2><span class="header-section-number">3.4</span> Tail-Down Models</h2>
+<p>The moving average construction in <a href="moving-average-models.html#eq:Zdef">(3.8)</a> and <a href="moving-average-models.html#eq:moveave">(3.10)</a> is well-known for the continuous real line from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(\infty\)</span>, such as for time-series models. For tail-down models, we also distinguish between the FC and FU situation. When two sites are FU, recall that <span class="math inline">\(b\)</span> denotes the longer of the distances to the common downstream junction, and <span class="math inline">\(a\)</span> denotes the shorter of the two distances. Then the model is the integral of the overlapping moving average functions seen in Figure <a href="moving-average-models.html#fig:FigTailDown3D1">3.10</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:FigTailDown3D1"></span>
+<img src="/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/graphTailDown3D.png" alt="Three locations on a stream network, $r_1$, $s_2$, $t_3$.  The tail-up moving-average functions are shown each location.  The moving average functions are integrated against white noise on a stream network, which is depicted as the ragged black lines on the stream network, given as blue lines. Autocorrelation is created when functions overlap.  The total area under the green function, going upstream from $r_1$, is constant, requiring a splitting of the function up each branch." width="70%" />
+<p class="caption">
+Figure 3.10: Three locations on a stream network, <span class="math inline">\(r_1\)</span>, <span class="math inline">\(s_2\)</span>, <span class="math inline">\(t_3\)</span>. The tail-up moving-average functions are shown each location. The moving average functions are integrated against white noise on a stream network, which is depicted as the ragged black lines on the stream network, given as blue lines. Autocorrelation is created when functions overlap. The total area under the green function, going upstream from <span class="math inline">\(r_1\)</span>, is constant, requiring a splitting of the function up each branch.
+</p>
+</div>
+<p>If two sites are FC, again use <span class="math inline">\(h\)</span> to denote their total separation distance via the stream network, and the model is the integral of the overlapping moving average functions seen in Figure <a href="moving-average-models.html#fig:FigTailDown3D1">3.10</a>. The following are tail-down models:</p>
+<ul>
+<li>Tail-Down Linear-with-Sill Model, <span class="math inline">\(b \geq a \geq 0\)</span>,
+<span class="math display">\[
+C_{d,lws}(a,b,h;\boldsymbol{\theta})= \left\{ \begin{array}{ll}
+    \theta_p\left(1 -\frac{h}{\theta_r}\right)I\left(\frac{h}{\theta_r}\leq 1\right) &amp;
+    \textrm{if FC,}\\
+    \theta_p\left(1 -\frac{b}{\theta_r}\right)I\left(\frac{b}{\theta_r}\leq 1\right) &amp;
+    \textrm{if FU,}
+  \end{array} \right.
+\]</span></li>
+<li>Tail-Down Spherical Model, <span class="math inline">\(b \geq a \geq 0\)</span>,
+<span class="math display">\[
+C_{d,sph}(a,b,h;\boldsymbol{\theta})= \left\{ \begin{array}{ll}
+    \theta_p(1-\frac{3}{2}\frac{h}{\theta_r}+\frac{1}{2}\frac{h^3}{\theta_r^3})I\left(\frac{h}{\theta_r}\leq 1\right) &amp;
+    \textrm{if FC,}\\
+    \theta_p\left(1-\frac{3}{2}\frac{a}{\theta_r}+\frac{1}{2}\frac{b}{\theta_r}\right)
+    \left(1- \frac{b}{\theta_r}\right)^2I\left(\frac{b}{\theta_r}\leq 1\right) &amp;
+    \textrm{if FU,}
+  \end{array} \right.
+\]</span></li>
+<li>Tail-down Epanechnikov Model, <span class="math inline">\(b \geq a \geq 0\)</span>,
+<span class="math display">\[
+C_d(a,b,h;\boldsymbol{\theta})= \left\{ \begin{array}{ll}
+    \frac{\theta_p(h-\theta_r)^2f_{eu}(h;\theta_r)}{16\theta_r^5} 
+  I\left(\frac{h}{\theta_r}\leq 1\right) &amp;
+    \textrm{if FC,}\\
+    \frac{\theta_p(b-\theta_r)^2f_{ed}(a,b;\theta_r)}{16\theta_r^5} 
+  I\left(\frac{b}{\theta_r}\leq 1\right) &amp;
+    \textrm{if FU,}
+  \end{array} \right.
+\]</span>
+where <span class="math inline">\(f_{eu}\)</span> was defined for tail-up models, and
+<span class="math display">\[
+f_{ed}(a,b;\theta_r)=16\theta_r^3 + 17\theta_r^2b - 15\theta_ra - 20\theta_ra^2 - \\
+2\theta_rb^2 + 10\theta_rab + 5ab^2 - b^3 - 10ba^2.
+\]</span></li>
+<li>Tail-down Exponential Model,
+<span class="math display">\[
+C_d(a,b,h;\boldsymbol{\theta})= \left\{ \begin{array}{ll}
+    \theta_p\exp(-3h/\theta_r) &amp;
+    \textrm{if FC,}\\
+    \theta_p\exp(-3(a+b)/\theta_r) &amp;
+    \textrm{if FU,}
+  \end{array} \right.
+\]</span></li>
+<li>Tail-down Mariah Model,
+<span class="math display">\[
+C_d(a,b,h;\boldsymbol{\theta})= \left\{ \begin{array}{ll}
+    \sigma^2\left(\frac{\log(90h/\theta_r+1)}{90h/\theta_r}\right) &amp;
+    \textrm{if FC, } h &gt; 0,\\
+    \sigma^2  &amp; \textrm{if FC, } h = 0,\\
+    \sigma^2\left(\frac{\log(90a/\theta_r+1)-\log(90b/\theta_r+1)}{90(a-b)/\theta_r}\right) &amp;
+    \textrm{if FU, } a \ne b, \\
+    \sigma^2\left(\frac{1}{90a/\theta_r+1}\right) &amp;
+    \textrm{if FU, } a = b,
+  \end{array} \right.
+\]</span></li>
+</ul>
+<p>For all models, <span class="math inline">\(\sigma^2 &gt; 0\)</span> and <span class="math inline">\(\theta_r &gt; 0\)</span>, and <span class="math inline">\(\boldsymbol{\theta} = (\sigma^2,\theta_r)^\top\)</span>. Although not necessary to maintain stationarity, the weights used in the tail-up models can be applied to the tail-down models as well. Note that <span class="math inline">\(h\)</span> is unconstrained, because for model-building we imagine that the headwater and outlet segments continue to infinity, as first described by . Also note that <span class="math inline">\(a\)</span> does not appear in the tail-down linear-with-sill model, but is used indirectly because the model depends on the point that is farthest from the junction; i.e., <span class="math inline">\(b\)</span>, and so <span class="math inline">\(a\)</span> is the shorter of the two distances.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Yagl:corr:1987">
+<p>Yaglom, A. M. 1987. <em>Correlation Theory of Stationary and Related Random Functions. Volume I</em>. New York: Springer-Verlag.</p>
+</div>
+<div id="ref-Ver:Pete:Theo:spat:2006">
+<p>Ver Hoef, Jay M., Erin E. Peterson, and David Theobald. 2006. “Spatial Statistical Models That Use Flow and Stream Distance.” <em>Environmental and Ecological Statistics</em> 13 (1): 449–64.</p>
+</div>
+<div id="ref-Cres:Frey:Harc:Smit:spat:2006">
+<p>Cressie, Noel, Jesse Frey, Bronwyn Harch, and Mick Smith. 2006. “Spatial Prediction on a River Network.” <em>Journal of Agricultural, Biological, and Environmental Statistics</em> 11 (2): 127–50.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="topology-and-distance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="spatial-linear-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-theory.Rmd",
+"text": "Edit"
+},
+"download": ["SpatStatStreamNet.pdf", "SpatStatStreamNet.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -5,27 +5,27 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Spatial Statistical Models for Stream Networks</title>
-  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
+  <title>Spatial Statistics for Stream Networks</title>
+  <meta name="description" content="Theory and software for spatial stream network models">
   <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
-  <meta property="og:title" content="Spatial Statistical Models for Stream Networks" />
+  <meta property="og:title" content="Spatial Statistics for Stream Networks" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta property="og:description" content="Theory and software for spatial stream network models" />
+  <meta name="github-repo" content="rstudio/SpatStatStreamNet" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Spatial Statistical Models for Stream Networks" />
+  <meta name="twitter:title" content="Spatial Statistics for Stream Networks" />
   
-  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="twitter:description" content="Theory and software for spatial stream network models" />
   
 
-<meta name="author" content="Jay Ver Hoef">
+<meta name="author" content="Jay M. Ver Hoef, Erin E. Peterson, Daniel J. Isaak">
 
 
-<meta name="date" content="2018-11-17">
+<meta name="date" content="2018-12-02">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -50,41 +50,67 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -100,13 +126,50 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">Spatial Statistics for Stream Networks</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
-<li class="chapter" data-level="3" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>3</b> Literature</a></li>
-<li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software"><i class="fa fa-check"></i>Software</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#authors"><i class="fa fa-check"></i>Authors</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgments"><i class="fa fa-check"></i>Acknowledgments</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#motivating-example"><i class="fa fa-check"></i><b>1.1</b> Motivating Example</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#why-stream-network-models"><i class="fa fa-check"></i><b>1.2</b> Why Stream Network Models?</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="topology-and-distance.html"><a href="topology-and-distance.html"><i class="fa fa-check"></i><b>2</b> Topology and Distance</a><ul>
+<li class="chapter" data-level="2.1" data-path="topology-and-distance.html"><a href="topology-and-distance.html#StreamTopo"><i class="fa fa-check"></i><b>2.1</b> Stream Topology</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="topology-and-distance.html"><a href="topology-and-distance.html#StreamsR"><i class="fa fa-check"></i><b>2.1.1</b> Streams in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="topology-and-distance.html"><a href="topology-and-distance.html#DualCoord"><i class="fa fa-check"></i><b>2.2</b> Dual Coordinate Systems</a></li>
+<li class="chapter" data-level="2.3" data-path="topology-and-distance.html"><a href="topology-and-distance.html#StreamDist"><i class="fa fa-check"></i><b>2.3</b> Stream Distance</a></li>
+<li class="chapter" data-level="2.4" data-path="topology-and-distance.html"><a href="topology-and-distance.html#additive-function"><i class="fa fa-check"></i><b>2.4</b> Additive Function</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="ChapMA.html"><a href="ChapMA.html"><i class="fa fa-check"></i><b>3</b> Models for Autocorrelation</a><ul>
+<li class="chapter" data-level="3.1" data-path="ChapMA.html"><a href="ChapMA.html#DiscreteTS"><i class="fa fa-check"></i><b>3.1</b> Discrete Time Series</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="ChapMA.html"><a href="ChapMA.html#definition-and-construction"><i class="fa fa-check"></i><b>3.1.1</b> Definition and Construction</a></li>
+<li class="chapter" data-level="3.1.2" data-path="ChapMA.html"><a href="ChapMA.html#MomentsDiscreteTS"><i class="fa fa-check"></i><b>3.1.2</b> Properties</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="ChapMA.html"><a href="ChapMA.html#continuous-time-series"><i class="fa fa-check"></i><b>3.2</b> Continuous Time Series</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="ChapMA.html"><a href="ChapMA.html#definition-and-construction-1"><i class="fa fa-check"></i><b>3.2.1</b> Definition and Construction</a></li>
+<li class="chapter" data-level="3.2.2" data-path="ChapMA.html"><a href="ChapMA.html#properties"><i class="fa fa-check"></i><b>3.2.2</b> Properties</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="ChapMA.html"><a href="ChapMA.html#TUModels"><i class="fa fa-check"></i><b>3.3</b> Tail-up Models</a></li>
+<li class="chapter" data-level="3.4" data-path="ChapMA.html"><a href="ChapMA.html#TDModels"><i class="fa fa-check"></i><b>3.4</b> Tail-Down Models</a></li>
+<li class="chapter" data-level="3.5" data-path="ChapMA.html"><a href="ChapMA.html#euclidean-distance-models"><i class="fa fa-check"></i><b>3.5</b> Euclidean Distance Models</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html"><i class="fa fa-check"></i><b>4</b> Spatial Linear Model</a><ul>
+<li class="chapter" data-level="4.1" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#variance-components"><i class="fa fa-check"></i><b>4.1</b> Variance Components</a></li>
+<li class="chapter" data-level="4.2" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#semivariograms"><i class="fa fa-check"></i><b>4.2</b> Semivariograms</a></li>
+<li class="chapter" data-level="4.3" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#estimation"><i class="fa fa-check"></i><b>4.3</b> Estimation</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#quasi-models"><i class="fa fa-check"></i><b>4.3.1</b> Quasi Models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#prediction"><i class="fa fa-check"></i><b>4.4</b> Prediction</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#block-prediction"><i class="fa fa-check"></i><b>4.4.1</b> Block Prediction</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#model-diagnostics"><i class="fa fa-check"></i><b>4.5</b> Model Diagnostics</a></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
 <li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
 <li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
@@ -125,7 +188,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Spatial Statistical Models for Stream Networks</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Spatial Statistics for Stream Networks</a>
           </h1>
         </div>
 
@@ -134,20 +197,98 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="header">
-<h1 class="title">Spatial Statistical Models for Stream Networks</h1>
-<h4 class="author"><em>Jay Ver Hoef</em></h4>
-<h4 class="date"><em>2018-11-17</em></h4>
+<h1 class="title">Spatial Statistics for Stream Networks</h1>
+<h4 class="author"><em>Jay M. Ver Hoef, Erin E. Peterson, Daniel J. Isaak</em></h4>
+<h4 class="date"><em>2018-12-02</em></h4>
 </div>
-<div id="prerequisites" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> Prerequisites</h1>
-<p>This is a <em>sample</em> book written in <strong>Markdown</strong>. You can use anything that Pandoc’s Markdown supports, e.g., a math equation <span class="math inline">\(a^2 + b^2 = c^2\)</span>.</p>
-<p>The <strong>bookdown</strong> package can be installed from CRAN or Github:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>)
-<span class="co"># or the development version</span>
-<span class="co"># devtools::install_github(&quot;rstudio/bookdown&quot;)</span></code></pre></div>
-<p>Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading <code>#</code>.</p>
-<p>To compile this example to PDF, you need XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <a href="https://yihui.name/tinytex/" class="uri">https://yihui.name/tinytex/</a>.</p>
+<div id="preface" class="section level1 unnumbered">
+<h1>Preface</h1>
+<p>This book is a result of a long collaboration among the three of us. Our journey began at the <em>Holiday Inn Express on the River</em> in Corvallis, Oregon, in August of 2003. Jay was on a review committee for the <a href="https://cfpub.epa.gov/ncer_abstracts/index.cfm/fuseaction/display.abstractDetail/abstract/7821/report/0">EPA STARMAP grant</a> to Oregon State University and Colorado State University. Erin was working on her Ph.D. with Dave Theobald at Colorado State University, and they were doing research on the grant. Erin and Dave had presented some of their research. Later, some of us who had travelled to Corvallis, were on the deck of the Holiday Inn overlooking the Willamette River, relaxing with a drink. Erin and Dave posed the question to Jay, “We would like to do kriging on streams, but use stream distance, rather than Euclidean distance. Is it possible?”</p>
+<p>Jay had used spatial moving averages in several previous publications to develop flexible spatial covariance models <span class="citation">(Barry and Ver Hoef <a href="#ref-Barr:Ver:blac:1996">1996</a>)</span>, and for multivariable models <span class="citation">(Ver Hoef and Barry <a href="#ref-Ver:Barr:cons:1998">1998</a>)</span>. These models have also been called process convolutions <span class="citation">(Higdon <a href="#ref-Higd:proc:1998">1998</a>)</span>. Jay had thought about the possibility of using these models on other topologies, even specifically for stream networks. However, the task of getting data into a Geographical Information System (GIS), and extracting the necessary information, was daunting, and he had no one pressing him with a real application. Erin and Dave provided the necessary push, and they had extensive GIS experience. The collaboration was initiated.</p>
+<p>About a year later, Jay taught a course on Spatial Statistics with Noel Cressie in Switzerland. While soaking in the spa at Yverdon les Bains, Jay explained his work on stream networks to Noel. Noel then worked with his colleagues, specifically Bronwyn Harch, and used these ideas for some research they had on stream networks in Australia. The two seminal papers appeared <span class="citation">(Ver Hoef, Peterson, and Theobald <a href="#ref-Ver:Pete:Theo:spat:2006">2006</a>; Cressie et al. <a href="#ref-Cres:Frey:Harc:Smit:spat:2006">2006</a>)</span>.</p>
+<p>After finishing her Ph.D., Erin was hired by Bronwyn Harch and worked at CSIRO in Brisbane, Australia. Erin and Jay continued to collaborate on a series of papers <span class="citation">(Peterson, Theobald, and Ver Hoef <a href="#ref-Pete:Theo:Ver:supp:2007">2007</a>; Peterson and Ver Hoef <a href="#ref-Pete:Ver:mixe:2010">2010</a>)</span>, and a full theory that included tail-up, tail-down, and Euclidean distance (classical geostatistical models) in a mixed model framework was presented as a discussion paper in a <em>Journal of the American Statistical Association</em> paper <span class="citation">(Ver Hoef and Peterson <a href="#ref-Ver:Pete:Move:2010">2010</a><a href="#ref-Ver:Pete:Move:2010">b</a>)</span>, with comments by <span class="citation">Cressie and O’Donnell (<a href="#ref-Cres:ODon:comm:2010">2010</a>)</span> and <span class="citation">Sahu (<a href="#ref-Sahu:comm:2010">2010</a>)</span> and a rejoinder <span class="citation">(Ver Hoef and Peterson <a href="#ref-Ver:Pete:rejo:2010">2010</a><a href="#ref-Ver:Pete:rejo:2010">a</a>)</span>.</p>
+<p>During this time, Dan learned of these methods, and contacted Erin and Jay. Geostatistics has a long history of modeling air temperature, and Erin worked with Dan to produce a seminal paper on geostatistical modeling for stream temperature data <span class="citation">(Isaak et al. <a href="#ref-Isaa:Luce:Riem:Nage:effe:2010">2010</a>)</span>. It soon became apparent that in order for these models to be generally useful, software was needed to integrate GIS operations with statistical computing.</p>
+<p>A watershed event occurred with a <a href="https://www.nceas.ucsb.edu/featured/peterson">working group at the National Center for Ecological Analysis and Synthesis (NCEAS)</a> in Santa Barbara, with help from Deputy Director Stephanie Hampton and generous support from Chris Jordan, NOAA Fisheries. Erin, Jay, and Dan realized that software, along with a broad base of users, was needed to really launch the methods. The NCEAS working group resulted in GIS software <span class="citation">(Peterson and Ver Hoef <a href="#ref-Pete:Ver:STAR:2014">2014</a>)</span>, <strong>R</strong> software, <span class="citation">(Ver Hoef et al. <a href="#ref-Ver:Pete:Clif:Shah:SSN:2014">2014</a>)</span>, and three applied papers show-casing the methods <span class="citation">(Peterson et al. <a href="#ref-Pete:Ver:Isaa:stre:2013">2013</a>; Isaak et al. <a href="#ref-Isaa:Pete:Ver:Weng:Appl:2014">2014</a>; Som et al. <a href="#ref-Som:Mone:Ver:Zimm:Pete:spat:2014">2014</a>)</span>.</p>
+<p>Since then, we have taught courses based on the methods and software at least once a year. We continued the mapping of stream temperature throughout the western U.S. <span class="citation">(D. J. Isaak, Wenger, et al. <a href="#ref-Isaa:Weng:Pete:Ver:norw:2017">2017</a>)</span>, and created layers for download and an interactive viewer</p>
+<p><a href="https://www.fs.fed.us/rm/boise/AWAE/projects/NorWeST.html" class="uri">https://www.fs.fed.us/rm/boise/AWAE/projects/NorWeST.html</a></p>
+<p>We also created a “National Stream Internet,”</p>
+<p><a href="https://www.fs.fed.us/rm/boise/AWAE/projects/NationalStreamInternet.html" class="uri">https://www.fs.fed.us/rm/boise/AWAE/projects/NationalStreamInternet.html</a></p>
+<p>where we have taken all of the streams in the continental U.S., starting with the <a href="https://www.usgs.gov/core-science-systems/ngp/national-hydrography">National Hydrography Database (NHD)</a>, and conditioned them so that they work with our models.</p>
+<p>We are trying to keep a <a href="https://www.fs.fed.us/rm/boise/AWAE/projects/NationalStreamInternet/SSN_Bibliography.html">bibliography of applications</a>. This book has grown from our desire to make these models as accessible as possible. It has been a fun journey. We enjoy working together, and making new colleagues along the way.</p>
+<p>Jay, Erin, and Dan</p>
+<div id="software" class="section level2 unnumbered">
+<h2>Software</h2>
+<p>The <strong>SSN</strong> package can be installed from CRAN. In an <strong>R</strong> terminal type</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;SSN&quot;</span>)</a></code></pre></div>
+</div>
+<div id="authors" class="section level2 unnumbered">
+<h2>Authors</h2>
+<p>Jay Ver Hoef is a senior scientist and statistician for the Marine Mammal Lab, part of the Alaska Fisheries Science Center of NOAA Fisheries, U.S. Dept. of Commerce. He works for a U.S. Government research lab where he develops statistical methods and consults on a wide variety of topics related to marine mammals and stream networks. The Marine Mammal Lab is located in Seattle, Washington, although Jay lives in Fairbanks, Alaska. His main statistical interests are in spatial statistics and Bayesian statistics, especially applied to ecological and environmental data.</p>
+<p>Erin Peterson …</p>
+<p>Dan Isaak …</p>
+</div>
+<div id="acknowledgments" class="section level2 unnumbered">
+<h2>Acknowledgments</h2>
+<p>We would like to thank…</p>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Barr:Ver:blac:1996">
+<p>Barry, Ronald Paul, and Ver HoefJay M. 1996. “Blackbox Kriging: Spatial Prediction Without Specifying Variogram Models.” <em>Journal of Agricultural, Biological, and Environmental Statistics</em> 1: 297–322.</p>
+</div>
+<div id="ref-Ver:Barr:cons:1998">
+<p>Ver Hoef, Jay M., and Ronald Paul Barry. 1998. “Constructing and Fitting Models for Cokriging and Multivariable Spatial Prediction.” <em>Journal of Statistical Planning and Inference</em> 69: 275–94.</p>
+</div>
+<div id="ref-Higd:proc:1998">
+<p>Higdon, David. 1998. “A Process-Convolution Approach to Modelling Temperatures in the North Atlantic Ocean (Disc: P191-192).” <em>Environmental and Ecological Statistics</em> 5: 173–90.</p>
+</div>
+<div id="ref-Ver:Pete:Theo:spat:2006">
+<p>Ver Hoef, Jay M., Erin E. Peterson, and David Theobald. 2006. “Spatial Statistical Models That Use Flow and Stream Distance.” <em>Environmental and Ecological Statistics</em> 13 (1): 449–64.</p>
+</div>
+<div id="ref-Cres:Frey:Harc:Smit:spat:2006">
+<p>Cressie, Noel, Jesse Frey, Bronwyn Harch, and Mick Smith. 2006. “Spatial Prediction on a River Network.” <em>Journal of Agricultural, Biological, and Environmental Statistics</em> 11 (2): 127–50.</p>
+</div>
+<div id="ref-Pete:Theo:Ver:supp:2007">
+<p>Peterson, E. E., D. M. Theobald, and Ver HoefJ. M. 2007. “Geostatistical Modeling on Stream Networks: Developing Valid Covariance Matrices Based on Hydrologic Distance and Stream Flow.” <em>Freshwater Biology</em> 52: 267–79.</p>
+</div>
+<div id="ref-Pete:Ver:mixe:2010">
+<p>Peterson, E. E., and Ver HoefJ. M. 2010. “A Mixed-Model Moving-Average Approach to Geostatistical Modeling in Stream Networks.” <em>Ecology</em> 93 (3): 644–51.</p>
+</div>
+<div id="ref-Ver:Pete:Move:2010">
+<p>Ver Hoef, J. M., and E. Peterson. 2010b. “A Moving Average Approach for Spatial Statistical Models of Stream Networks (with Discussion).” <em>Journal of the American Statistical Association</em> 105: 6–18. <a href="https://doi.org/10.1198/jasa.2009.ap08248; Rejoinder pgs. 22 - 24">https://doi.org/10.1198/jasa.2009.ap08248; Rejoinder pgs. 22 - 24</a>.</p>
+</div>
+<div id="ref-Cres:ODon:comm:2010">
+<p>Cressie, Noel, and O’DonnellDavid. 2010. “Comment: Statistical Dependence in Stream Networks.” <em>Journal of the American Statistical Association</em> 105 (489): 18–21.</p>
+</div>
+<div id="ref-Sahu:comm:2010">
+<p>Sahu, Sujit K. 2010. “Comment.” <em>Journal of the American Statistical Association</em> 105 (489): 21–22.</p>
+</div>
+<div id="ref-Ver:Pete:rejo:2010">
+<p>Ver Hoef, Jay M., and Erin E. Peterson. 2010a. “Rejoinder.” <em>Journal of the American Statistical Association</em> 105 (489): 22–24.</p>
+</div>
+<div id="ref-Isaa:Luce:Riem:Nage:effe:2010">
+<p>Isaak, D.J., C.H. Luce, B.E. Rieman, D.E. Nagel, E.E. Peterson, D.L. Horan, S. Parkes, and G.L. Chandler. 2010. “Effects of Climate Change and Recent Wildfires on Stream Temperature and Thermal Habitat for Two Salmonids in a Mountain River Network.” <em>Ecological Applications</em>, in press.</p>
+</div>
+<div id="ref-Pete:Ver:STAR:2014">
+<p>Peterson, Erin E, and Ver HoefJay M. 2014. “STARS: An Arcgis Toolset Used to Calculate the Spatial Information Needed to Fit Spatial Statistical Models to Stream Network Data.” <em>Journal of Statisticla Software</em> 56 (2): 1–17.</p>
+</div>
+<div id="ref-Ver:Pete:Clif:Shah:SSN:2014">
+<p>Ver Hoef, J. M., E.E. Peterson, D. Clifford, and R. Shah. 2014. “SSN: An R Package for Spatial Statistical Modeling on Stream Networks.” <em>Journal of Statistical Software</em> 56 (3): 1–45.</p>
+</div>
+<div id="ref-Pete:Ver:Isaa:stre:2013">
+<p>Peterson, E. E., Ver HoefJ. M., D. J. Isaak, J. A. Falke, M-J Fortin, C. Jordan, K. McNyset, et al. 2013. “Stream Networks in Space: Concepts, Models, and Synthesis.” <em>Ecology Letters</em> 16: 707–19. <a href="https://doi.org/10.1111/ele.12084.">https://doi.org/10.1111/ele.12084.</a></p>
+</div>
+<div id="ref-Isaa:Pete:Ver:Weng:Appl:2014">
+<p>Isaak, Daniel J, Erin E Peterson, Ver HoefJay M, Seth J Wenger, Jeffrey A Falke, Christian E Torgersen, Colin Sowder, et al. 2014. “Applications of Spatial Statistical Network Models to Stream Data.” <em>Wiley Interdisciplinary Reviews: Water</em> 1 (3): 277–94.</p>
+</div>
+<div id="ref-Som:Mone:Ver:Zimm:Pete:spat:2014">
+<p>Som, Nicholas A, Pascal Monestiez, Ver HoefJay M, Dale L Zimmerman, and Erin E Peterson. 2014. “Spatial Sampling on Streams: Principles for Inference on Aquatic Networks.” <em>Environmetrics</em> 25 (5): 306–23.</p>
+</div>
+<div id="ref-Isaa:Weng:Pete:Ver:norw:2017">
+<p>Isaak, Daniel J, Seth J Wenger, Erin E Peterson, Ver HoefJay M, David E Nagel, Charles H Luce, Steven W Hostetler, et al. 2017. “The Norwest Summer Stream Temperature Model and Scenarios for the Western Us: A Crowd-Sourced Database and New Geospatial Tools Foster a User Community and Predict Broad Climate Warming of Rivers and Streams.” <em>Water Resources Research</em> 53 (11): 9181–9205.</p>
+</div>
 </div>
             </section>
 
@@ -188,7 +329,7 @@ gitbook.start({
 "link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
 "text": "Edit"
 },
-"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"download": ["SpatStatStreamNet.pdf", "SpatStatStreamNet.epub"],
 "toc": {
 "collapse": "subsection"
 }
@@ -201,7 +342,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');

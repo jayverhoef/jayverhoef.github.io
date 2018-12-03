@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="final-words.html">
-
+<link rel="prev" href="ChapMA.html">
+<link rel="next" href="applications.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -196,160 +196,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
+<div id="spatial-linear-model" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Spatial Linear Model</h1>
+<p>The moving average constructions, creating spatially-autocorrelated random variables on stream networks, as developed in Chapter <a href="ChapMA.html#ChapMA">3</a>, are part of a larger strategy. We use them as random errors in a spatial linear model.</p>
+<div id="variance-components" class="section level2">
+<h2><span class="header-section-number">4.1</span> Variance Components</h2>
+<p>The most general linear model that we consider is</p>
+<p><span class="math display" id="eq:spLinearModel">\[\begin{equation} 
+\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \mathbf{z}_u + \mathbf{z}_d +\mathbf{z}_e + \mathbf{W}_1\boldsymbol{\gamma}_1 + \ldots + \mathbf{W}_p\boldsymbol{\gamma}_p + \boldsymbol{\epsilon},
+\tag{4.1}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\mathbf{X}\)</span> is a design matrix of fixed effects and <span class="math inline">\(\boldsymbol{\beta}\)</span> is a vector of parameters. The vector <span class="math inline">\(\mathbf{z}_u\)</span> contains spatially-autocorrelated random variables with a tail-up autocovariance, with <span class="math inline">\(\textrm{var}(\mathbf{z}_u) = \sigma_u^2\mathbf{R}(\theta_r)\)</span>, where <span class="math inline">\(\mathbf{R}(\theta_r)\)</span> is a correlation matrix that depends on the range parameter <span class="math inline">\(\theta_r\)</span> as described in Section <a href="ChapMA.html#TUModels">3.3</a>. The vector <span class="math inline">\(\mathbf{z}_d\)</span> contains spatially-autocorrelated random variables with a tail-down autocovariance, <span class="math inline">\(\textrm{var}(\mathbf{z}_d) = \sigma^2\mathbf{R}(\theta_r)\)</span> as described in Section <a href="ChapMA.html#TDModels">3.4</a>. The vector <span class="math inline">\(\mathbf{z}_e\)</span> contains spatially-autocorrelated random variables with a Euclidean distance autocovariance, <span class="math inline">\(\textrm{var}(\mathbf{z}_e) = \sigma_e^2\mathbf{R}(\theta_r)\)</span> as described below. We can include non-spatial random effects, where <span class="math inline">\(\mathbf{W}_k\)</span> is a design matrix for random effects <span class="math inline">\(\boldsymbol{\gamma}_k; k = 1,\ldots,p\)</span> with <span class="math inline">\(\textrm{var}(\boldsymbol{\gamma}_k)=\sigma^2_k\mathbf{I}\)</span>, and <span class="math inline">\(\boldsymbol{\epsilon}\)</span> contains independent random variables with
+<span class="math inline">\(\textrm{var}(\boldsymbol{\epsilon})=\sigma^2_0\mathbf{I}\)</span>. When used for spatial prediction, this model is referred to as “universal”&quot; kriging <span class="citation">(Le and Zidek <a href="#ref-Le:Zide:stat:2006">2006</a>, pg. 107)</span> , with “ordinary”&quot; kriging being the special case where the design matrix <span class="math inline">\(\mathbf{X}\)</span> is a single column of ones <span class="citation">(Cressie <a href="#ref-Cres:stat:1993">1993</a>, pg. 119)</span>. The most general covariance matrix we form is,
+<span class="math display" id="eq:covStructure">\[\begin{equation} 
+  \begin{array}{c}
+  \textrm{cov}(\mathbf{Y})=\boldsymbol{\Sigma}=\sigma_u^2\mathbf{R}(\theta_r) + 
+  \sigma_d^2\mathbf{R}(\alpha_d) + \sigma_e^2\mathbf{R}(\alpha_e) + \\
+  \sigma_1^2\mathbf{W}_1\mathbf{W}_1^\top + \ldots +
+  \sigma_p^2\mathbf{W}_p\mathbf{W}_p^\top + \sigma_0^2\mathbf{I}.  
+  \end{array}
+\tag{4.2}
+\end{equation}\]</span></p>
+</div>
+<div id="semivariograms" class="section level2">
+<h2><span class="header-section-number">4.2</span> Semivariograms</h2>
+</div>
+<div id="estimation" class="section level2">
+<h2><span class="header-section-number">4.3</span> Estimation</h2>
+<div id="quasi-models" class="section level3">
+<h3><span class="header-section-number">4.3.1</span> Quasi Models</h3>
+</div>
+</div>
+<div id="prediction" class="section level2">
+<h2><span class="header-section-number">4.4</span> Prediction</h2>
+<div id="block-prediction" class="section level3">
+<h3><span class="header-section-number">4.4.1</span> Block Prediction</h3>
+</div>
+</div>
+<div id="model-diagnostics" class="section level2">
+<h2><span class="header-section-number">4.5</span> Model Diagnostics</h2>
 
+</div>
+</div>
+<h3>References</h3>
 <div id="refs" class="references">
-<div>
-<p>Ahuja, R.K., T.L. Magnanti, and J.B Orlin. 1993. <em>Network Flows: Theory, Algorithms, and Applications</em>. New Jersey: Prentice-Hall.</p>
-</div>
-<div>
-<p>Al-Chokhachy, Robert, David A Schmetterling, Chris Clancy, Patrick Saffel, Ryan P Kovach, Leslie G Nyce, Brad Liermann, Wade A Fredenberg, and Ron Pierce. 2016. “Are Brown Trout Replacing or Displacing Bull Trout Populations in a Changing Climate?” <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 73 (9): 1395–1404.</p>
-</div>
-<div>
-<p>Barry, Ronald Paul, and Ver HoefJay M. 1996. “Blackbox Kriging: Spatial Prediction Without Specifying Variogram Models.” <em>Journal of Agricultural, Biological, and Environmental Statistics</em> 1: 297–322.</p>
-</div>
-<div>
-<p>Benda, Lee, N Leroy Poff, Daniel Miller, Thomas Dunne, Gordon Reeves, George Pess, and Michael Pollock. 2004. “The Network Dynamics Hypothesis: How Channel Networks Structure Riverine Habitats.” <em>BioScience</em> 54 (5): 413–27.</p>
-</div>
-<div>
-<p>Bivand, Roger S., Edzer J. Pebesma, and Virgilio Gomez-Rubio. 2008. <em>Applied Spatial Data Analysis with R</em>. Springer, NY. <a href="http://www.asdar-book.org/">http://www.asdar-book.org/</a>.</p>
-</div>
-<div>
-<p>Chiles, Jean-Paul, and Pierre Delfiner. 1999. <em>Geostatistics: Modeling Spatial Uncertainty</em>. New York: John Wiley &amp; Sons.</p>
-</div>
-<div>
-<p>Christensen, O.F., and Jr Ribeiro Paulo J. 2002. “GeoRglm - a Package for Generalised Linear Spatial Models.” <em>R News</em> 2 (2): 26–28. <a href="http://cran.R-project.org/doc/Rnews">http://cran.R-project.org/doc/Rnews</a>.</p>
-</div>
-<div>
-<p>Cressie, Noel A. C. 1993. <em>Statistics for Spatial Data</em>. New York: John Wiley &amp; Sons.</p>
-</div>
-<div>
-<p>Cressie, Noel, Jesse Frey, Bronwyn Harch, and Mick Smith. 2006. “Spatial Prediction on a River Network.” <em>Journal of Agricultural, Biological, and Environmental Statistics</em> 11 (2): 127–50.</p>
-</div>
-<div>
-<p>Cressie, Noel, and O’DonnellDavid. 2010. “Comment: Statistical Dependence in Stream Networks.” <em>Journal of the American Statistical Association</em> 105 (489): 18–21.</p>
-</div>
-<div>
-<p>Dale, MRT, and M-J Fortin. 2010. “From Graphs to Spatial Graphs.” <em>Annual Review of Ecology, Evolution, and Systematics</em> 41 (1): 21.</p>
-</div>
-<div>
-<p>Dauwalter, Daniel C, Kurt A Fesenmyer, and Robin Bjork. 2015. “Using Aerial Imagery to Characterize Redband Trout Habitat in a Remote Desert Landscape.” <em>Transactions of the American Fisheries Society</em> 144 (6): 1322–39.</p>
-</div>
-<div>
-<p>Dent, C. I., and N. B. Grimm. 1999. “Spatial Heterogeneity of Stream Water Nutrient Concentrations over Successional Time.” <em>Ecology</em> 80: 2283–98.</p>
-</div>
-<div>
-<p>ESRI. 2014. “ArcGIS Desktop: Release 10.3.” Redlands, CA: Environmental Systems Research Institute.</p>
-</div>
-<div>
-<p>Fausch, Kurt D, Christian E Torgersen, Colden V Baxter, and Hiram W Li. 2002. “Landscapes to Riverscapes: Bridging the Gap Between Research and Conservation of Stream Fishes a Continuous View of the River Is Needed to Understand How Processes Interacting Among Scales Set the Context for Stream Fishes and Their Habitat.” <em>BioScience</em> 52 (6): 483–98.</p>
-</div>
-<div>
-<p>Fields Development Team. 2006. “Fields: Tools for Spatial Data. National Center for Atmospheric Research, Boulder, Co.” http://www.cgd.ucar.edu/Software/Fields.</p>
-</div>
-<div>
-<p>Finley, Andrew O., Sudipto Banerjee, and Bradley P. Carlin. 2007. “SpBayes: An R Package for Univariate and Multivariate Hierarchical Point-Referenced Spatial Models.” <em>Journal of Statistical Software</em> 19 (4): 1–24. <a href="http://www.jstatsoft.org/v19/i04">http://www.jstatsoft.org/v19/i04</a>.</p>
-</div>
-<div>
-<p>Garreta, Vincent, Pascal Monestiez, and Ver HoefJay M. 2009. “Spatial Modelling and Prediction on River Networks: Up Model,down Model, or Hybrid.” <em>Environmetrics</em> 21: 439–56, DOI:10.1002/env.995.</p>
-</div>
-<div>
-<p>Higdon, David. 1998. “A Process-Convolution Approach to Modelling Temperatures in the North Atlantic Ocean (Disc: P191-192).” <em>Environmental and Ecological Statistics</em> 5: 173–90.</p>
-</div>
-<div>
-<p>Isaak, Daniel J, Erin E Peterson, Ver HoefJay M, Seth J Wenger, Jeffrey A Falke, Christian E Torgersen, Colin Sowder, et al. 2014. “Applications of Spatial Statistical Network Models to Stream Data.” <em>Wiley Interdisciplinary Reviews: Water</em> 1 (3): 277–94.</p>
-</div>
-<div>
-<p>Isaak, Daniel J, Ver HoefJay M, Erin E Peterson, Dona Horan, and Dave Nagel. 2017. “Scalable Population Estimates Using Spatial-Stream-Network (Ssn) Models, Fish Density Surveys, and National Geospatial Database Frameworks for Streams.” <em>Canadian Journal of Fisheries and Aquatic Sciences</em> in press.</p>
-</div>
-<div>
-<p>Isaak, Daniel J, Seth J Wenger, Erin E Peterson, Ver HoefJay M, David E Nagel, Charles H Luce, Steven W Hostetler, et al. 2017. “The Norwest Summer Stream Temperature Model and Scenarios for the Western Us: A Crowd-Sourced Database and New Geospatial Tools Foster a User Community and Predict Broad Climate Warming of Rivers and Streams.” <em>Water Resources Research</em> 53 (11): 9181–9205.</p>
-</div>
-<div>
-<p>Isaak, Daniel J, Seth Wenger, and Michael K Young. 2017. “Big Biology Meets Microclimatology: Defining Thermal Niches of Aquatic Ectotherms at Landscape Scales for Conservation Planning.” <em>Ecological Applications</em> In Press.</p>
-</div>
-<div>
-<p>Isaak, Daniel J, Michael K Young, Charles H Luce, Steven W Hostetler, Seth J Wenger, Erin E Peterson, Ver HoefJay M, Matthew C Groce, Dona L Horan, and David E Nagel. 2016. “Slow Climate Velocities of Mountain Streams Portend Their Role as Refugia for Cold-Water Biodiversity.” <em>Proceedings of the National Academy of Sciences</em>, 201522429.</p>
-</div>
-<div>
-<p>Isaak, Daniel J, Michael K Young, David E Nagel, Dona L Horan, and Matthew C Groce. 2015. “The Cold-Water Climate Shield: Delineating Refugia for Preserving Salmonid Fishes Through the 21st Century.” <em>Global Change Biology</em> 21 (7): 2540–53.</p>
-</div>
-<div>
-<p>Isaak, D.J., C.H. Luce, B.E. Rieman, D.E. Nagel, E.E. Peterson, D.L. Horan, S. Parkes, and G.L. Chandler. 2010. “Effects of Climate Change and Recent Wildfires on Stream Temperature and Thermal Habitat for Two Salmonids in a Mountain River Network.” <em>Ecological Applications</em>, in press.</p>
-</div>
-<div>
+<div id="ref-Le:Zide:stat:2006">
 <p>Le, N. D., and J. V. Zidek. 2006. <em>Statistical Analysis of Environmental Space-Time Processes</em>. New York: Springer.</p>
 </div>
-<div>
-<p>Pebesma, Edzer J. 2004. “Multivariable Geostatistics in S: The Gstat Package.” <em>Computers &amp; Geosciences</em> 30: 683–91.</p>
-</div>
-<div>
-<p>Peterson, E. E., D. M. Theobald, and Ver HoefJ. M. 2007. “Geostatistical Modeling on Stream Networks: Developing Valid Covariance Matrices Based on Hydrologic Distance and Stream Flow.” <em>Freshwater Biology</em> 52: 267–79.</p>
-</div>
-<div>
-<p>Peterson, E. E., and Ver HoefJ. M. 2010. “A Mixed-Model Moving-Average Approach to Geostatistical Modeling in Stream Networks.” <em>Ecology</em> 93 (3): 644–51.</p>
-</div>
-<div>
-<p>Peterson, E. E., Ver HoefJ. M., D. J. Isaak, J. A. Falke, M-J Fortin, C. Jordan, K. McNyset, et al. 2013. “Stream Networks in Space: Concepts, Models, and Synthesis.” <em>Ecology Letters</em> 16: 707–19. <a href="https://doi.org/10.1111/ele.12084.">https://doi.org/10.1111/ele.12084.</a></p>
-</div>
-<div>
-<p>Peterson, Erin E, and Ver HoefJay M. 2014. “STARS: An Arcgis Toolset Used to Calculate the Spatial Information Needed to Fit Spatial Statistical Models to Stream Network Data.” <em>Journal of Statisticla Software</em> 56 (2): 1–17.</p>
-</div>
-<div>
-<p>R Core Team. 2015. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="http://www.R-project.org">http://www.R-project.org</a>.</p>
-</div>
-<div>
-<p>Ribeiro, Jr, Paulo J., and Peter J. Diggle. 2001. “GeoR: A Package for Geostatistical Analysis.” <em>R-NEWS</em> 1 (2): 14–18. <a href="http://CRAN.R-project.org/doc/Rnews/">http://CRAN.R-project.org/doc/Rnews/</a>.</p>
-</div>
-<div>
-<p>Sahu, Sujit K. 2010. “Comment.” <em>Journal of the American Statistical Association</em> 105 (489): 21–22.</p>
-</div>
-<div>
-<p>Schlosser, Isaac J, and PL Angermeier. 1995. “Spatial Variation in Demographic Processes of Lotic Fishes: Conceptual Models, Empirical Evidence, and Implications for Conservation.” <em>American Fisheries Society Symposium</em> 17: 360–70.</p>
-</div>
-<div>
-<p>Smith, Brian J., Jun Yan, and Mary Kathryn Cowles. 2008. “Unified Geostatistical Modeling for Data Fusion and Spatial Heteroskedasticity with R Package Ramps.” <em>Journal of Statistical Software</em> 25 (10): 1–21. <a href="http://www.jstatsoft.org/v25/i10">http://www.jstatsoft.org/v25/i10</a>.</p>
-</div>
-<div>
-<p>Som, Nicholas A, Pascal Monestiez, Ver HoefJay M, Dale L Zimmerman, and Erin E Peterson. 2014. “Spatial Sampling on Streams: Principles for Inference on Aquatic Networks.” <em>Environmetrics</em> 25 (5): 306–23.</p>
-</div>
-<div>
-<p>Torgersen, Christian E., R. E. Gresswell, and D. S. Bateman. 2004. “Pattern Detection in Stream Networks: Quantifying Spatial Variability in Fish Distribution.” In <em>Proceedings of the Second Annual International Symposium on Gisspatial Analyses in Fishery and Aquatic Sciences</em>, edited by T. Nishida, P. J. Kailola, and C. E. Hollingworth, 405–20. Saitama, Japan: Fishery GIS Research Group.</p>
-</div>
-<div>
-<p>Urban, Dean, and Timothy Keitt. 2001. “Landscape Connectivity: A Graph-Theoretic Perspective.” <em>Ecology</em> 82 (5): 1205–18.</p>
-</div>
-<div>
-<p>Urban, Dean L, Emily S Minor, Eric A Treml, and Robert S Schick. 2009. “Graph Models of Habitat Mosaics.” <em>Ecology Letters</em> 12 (3): 260–73.</p>
-</div>
-<div>
-<p>Venables, W. N., and B. D. Ripley. 2002. <em>Modern Applied Statistics with S</em>. Fourth. New York: Springer. <a href="http://www.stats.ox.ac.uk/pub/MASS4">http://www.stats.ox.ac.uk/pub/MASS4</a>.</p>
-</div>
-<div>
-<p>Ver Hoef, Jay M., and Ronald Paul Barry. 1998. “Constructing and Fitting Models for Cokriging and Multivariable Spatial Prediction.” <em>Journal of Statistical Planning and Inference</em> 69: 275–94.</p>
-</div>
-<div>
-<p>Ver Hoef, Jay M., and Erin E. Peterson. 2010a. “Rejoinder.” <em>Journal of the American Statistical Association</em> 105 (489): 22–24.</p>
-</div>
-<div>
-<p>Ver Hoef, Jay M., Erin E. Peterson, and David Theobald. 2006. “Spatial Statistical Models That Use Flow and Stream Distance.” <em>Environmental and Ecological Statistics</em> 13 (1): 449–64.</p>
-</div>
-<div>
-<p>Ver Hoef, J. M., and E. Peterson. 2010b. “A Moving Average Approach for Spatial Statistical Models of Stream Networks (with Discussion).” <em>Journal of the American Statistical Association</em> 105: 6–18. <a href="https://doi.org/10.1198/jasa.2009.ap08248; Rejoinder pgs. 22 - 24">https://doi.org/10.1198/jasa.2009.ap08248; Rejoinder pgs. 22 - 24</a>.</p>
-</div>
-<div>
-<p>Ver Hoef, J. M., E.E. Peterson, D. Clifford, and R. Shah. 2014. “SSN: An R Package for Spatial Statistical Modeling on Stream Networks.” <em>Journal of Statistical Software</em> 56 (3): 1–45.</p>
-</div>
-<div>
-<p>Westley, Peter AH, Andrew H Dittman, Eric J Ward, and Thomas P Quinn. 2015. “Signals of Climate, Conspecific Density, and Watershed Features in Patterns of Homing and Dispersal by Pacific Salmon.” <em>Ecology</em> 96 (10): 2823–33.</p>
-</div>
-<div>
-<p>Yaglom, A. M. 1987. <em>Correlation Theory of Stationary and Related Random Functions. Volume I</em>. New York: Springer-Verlag.</p>
-</div>
-<div>
-<p>Yuan, L. L. 2004. “Using Spatial Interpolation to Estimate Stressor Levels in Unsampled Streams.” <em>Environmental Monitoring and Assessment</em> 94 (1): 23–38.</p>
-</div>
+<div id="ref-Cres:stat:1993">
+<p>Cressie, Noel A. C. 1993. <em>Statistics for Spatial Data</em>. New York: John Wiley &amp; Sons.</p>
 </div>
 </div>
             </section>
@@ -357,8 +252,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="final-words.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="ChapMA.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="applications.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -388,7 +283,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/07-references.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-Spatial-Linear-Model.Rmd",
 "text": "Edit"
 },
 "download": ["SpatStatStreamNet.pdf", "SpatStatStreamNet.epub"],

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Spatial Statistics for Stream Networks</title>
+  <meta name="description" content="Theory and software for spatial stream network models">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Spatial Statistics for Stream Networks" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Theory and software for spatial stream network models" />
+  <meta name="github-repo" content="rstudio/SpatStatStreamNet" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Spatial Statistics for Stream Networks" />
+  
+  <meta name="twitter:description" content="Theory and software for spatial stream network models" />
+  
+
+<meta name="author" content="Jay M. Ver Hoef, Erin E. Peterson, Daniel J. Isaak">
+
+
+<meta name="date" content="2018-12-02">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="intro.html">
+<link rel="next" href="ChapMA.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Spatial Statistics for Stream Networks</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software"><i class="fa fa-check"></i>Software</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#authors"><i class="fa fa-check"></i>Authors</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgments"><i class="fa fa-check"></i>Acknowledgments</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#motivating-example"><i class="fa fa-check"></i><b>1.1</b> Motivating Example</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#why-stream-network-models"><i class="fa fa-check"></i><b>1.2</b> Why Stream Network Models?</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="topology-and-distance.html"><a href="topology-and-distance.html"><i class="fa fa-check"></i><b>2</b> Topology and Distance</a><ul>
+<li class="chapter" data-level="2.1" data-path="topology-and-distance.html"><a href="topology-and-distance.html#StreamTopo"><i class="fa fa-check"></i><b>2.1</b> Stream Topology</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="topology-and-distance.html"><a href="topology-and-distance.html#StreamsR"><i class="fa fa-check"></i><b>2.1.1</b> Streams in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="topology-and-distance.html"><a href="topology-and-distance.html#DualCoord"><i class="fa fa-check"></i><b>2.2</b> Dual Coordinate Systems</a></li>
+<li class="chapter" data-level="2.3" data-path="topology-and-distance.html"><a href="topology-and-distance.html#StreamDist"><i class="fa fa-check"></i><b>2.3</b> Stream Distance</a></li>
+<li class="chapter" data-level="2.4" data-path="topology-and-distance.html"><a href="topology-and-distance.html#additive-function"><i class="fa fa-check"></i><b>2.4</b> Additive Function</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="ChapMA.html"><a href="ChapMA.html"><i class="fa fa-check"></i><b>3</b> Models for Autocorrelation</a><ul>
+<li class="chapter" data-level="3.1" data-path="ChapMA.html"><a href="ChapMA.html#DiscreteTS"><i class="fa fa-check"></i><b>3.1</b> Discrete Time Series</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="ChapMA.html"><a href="ChapMA.html#definition-and-construction"><i class="fa fa-check"></i><b>3.1.1</b> Definition and Construction</a></li>
+<li class="chapter" data-level="3.1.2" data-path="ChapMA.html"><a href="ChapMA.html#MomentsDiscreteTS"><i class="fa fa-check"></i><b>3.1.2</b> Properties</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="ChapMA.html"><a href="ChapMA.html#continuous-time-series"><i class="fa fa-check"></i><b>3.2</b> Continuous Time Series</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="ChapMA.html"><a href="ChapMA.html#definition-and-construction-1"><i class="fa fa-check"></i><b>3.2.1</b> Definition and Construction</a></li>
+<li class="chapter" data-level="3.2.2" data-path="ChapMA.html"><a href="ChapMA.html#properties"><i class="fa fa-check"></i><b>3.2.2</b> Properties</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="ChapMA.html"><a href="ChapMA.html#TUModels"><i class="fa fa-check"></i><b>3.3</b> Tail-up Models</a></li>
+<li class="chapter" data-level="3.4" data-path="ChapMA.html"><a href="ChapMA.html#TDModels"><i class="fa fa-check"></i><b>3.4</b> Tail-Down Models</a></li>
+<li class="chapter" data-level="3.5" data-path="ChapMA.html"><a href="ChapMA.html#euclidean-distance-models"><i class="fa fa-check"></i><b>3.5</b> Euclidean Distance Models</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html"><i class="fa fa-check"></i><b>4</b> Spatial Linear Model</a><ul>
+<li class="chapter" data-level="4.1" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#variance-components"><i class="fa fa-check"></i><b>4.1</b> Variance Components</a></li>
+<li class="chapter" data-level="4.2" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#semivariograms"><i class="fa fa-check"></i><b>4.2</b> Semivariograms</a></li>
+<li class="chapter" data-level="4.3" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#estimation"><i class="fa fa-check"></i><b>4.3</b> Estimation</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#quasi-models"><i class="fa fa-check"></i><b>4.3.1</b> Quasi Models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#prediction"><i class="fa fa-check"></i><b>4.4</b> Prediction</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#block-prediction"><i class="fa fa-check"></i><b>4.4.1</b> Block Prediction</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="spatial-linear-model.html"><a href="spatial-linear-model.html#model-diagnostics"><i class="fa fa-check"></i><b>4.5</b> Model Diagnostics</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Spatial Statistics for Stream Networks</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="topology-and-distance" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Topology and Distance</h1>
+<style type="text/css">
+caption, .caption{
+  font-style:italic;
+  margin-top:0.5em;
+  margin-bottom:0.5em;
+  width:99%;
+  text-align: left;
+}
+body{
+  font-family: Times-Roman;
+  font-size: 11pt;
+}
+p {line-height: 2em;}
+tr:nth-child(even) {background-color: #f2f2f2;}
+th {
+    background-color: #4CAF50;
+    color: black;
+}
+p {
+padding-bottom: 15px;
+}
+
+</style>
+<div id="StreamTopo" class="section level2">
+<h2><span class="header-section-number">2.1</span> Stream Topology</h2>
+<p>We define stream segments as lines between junctions in a stream network . Our convention is that a location downstream is assigned a lower real number for position than a location upstream. A dendritic stream network has a single most-downstream point (the outlet), which we set to 0, and it is the point from which all distances are computed. We define “distance upstream” to be the length of the line from any location on a stream network that can be connected by a continuous line to the network outlet (lowest point in that network). For model development it will be convenient to extend all terminal upstream segments to <span class="math inline">\(\infty\)</span> and a line downstream of the outlet to <span class="math inline">\(-\infty\)</span>.</p>
+<p>There are a finite number of stream segments in an SSN, and we index them arbitrarily with <span class="math inline">\(i = 1,2,\ldots\)</span>. Many locations will have the same distance from the outlet (our 0 point) in an SSN, so to uniquely define locations using distance upstream, we denote locations as <span class="math inline">\(x_i\)</span>, where <span class="math inline">\(x\)</span> is distance upstream and <span class="math inline">\(i\)</span> indicates that it is on the <span class="math inline">\(i\)</span>th stream segment. In Figure <a href="topology-and-distance.html#fig:Fig3SegStream">2.1</a>, <span class="math inline">\(r_1\)</span> is distance <span class="math inline">\(r\)</span> upstream and it is located on the segment labeled 1. Note the arbitrary labeling of segments <span class="math inline">\(r_1\)</span>, <span class="math inline">\(s_2\)</span>, and <span class="math inline">\(t_3\)</span> as seen in Figure <a href="topology-and-distance.html#fig:Fig3SegStream">2.1</a>. We use <span class="math inline">\(l_i\)</span> for the smallest, and <span class="math inline">\(u_i\)</span> for the largest, upstream distance on the <span class="math inline">\(i\)</span>th segment (Figure <a href="topology-and-distance.html#fig:Fig3SegStream">2.1</a>).</p>
+<div class="figure" style="text-align: center"><span id="fig:Fig3SegStream"></span>
+<img src="/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/Fig3SegStream.png" alt="Three locations on a stream network, $r_1$, $s_2$, $t_3$.  The location of the farthest upstream distance on segment 1 is $u_1$.  The locations of the farthest downstream distances on segments 2 and 3 are $l_2$ and $l_3$, respectively.  Effectively, $u_1 = l_2 = l_3$, but it is convenient to use the distinct notation. For FU sites ($s_2$ and $t_3$), $a$ is used for the shorter distance to their common junction, and $b$ is used for the longer distance.  When sites are FC ($s_2$ and $r_1$), $h$ is used to denote the distance between them." width="60%" />
+<p class="caption">
+Figure 2.1: Three locations on a stream network, <span class="math inline">\(r_1\)</span>, <span class="math inline">\(s_2\)</span>, <span class="math inline">\(t_3\)</span>. The location of the farthest upstream distance on segment 1 is <span class="math inline">\(u_1\)</span>. The locations of the farthest downstream distances on segments 2 and 3 are <span class="math inline">\(l_2\)</span> and <span class="math inline">\(l_3\)</span>, respectively. Effectively, <span class="math inline">\(u_1 = l_2 = l_3\)</span>, but it is convenient to use the distinct notation. For FU sites (<span class="math inline">\(s_2\)</span> and <span class="math inline">\(t_3\)</span>), <span class="math inline">\(a\)</span> is used for the shorter distance to their common junction, and <span class="math inline">\(b\)</span> is used for the longer distance. When sites are FC (<span class="math inline">\(s_2\)</span> and <span class="math inline">\(r_1\)</span>), <span class="math inline">\(h\)</span> is used to denote the distance between them.
+</p>
+</div>
+<p>Let <span class="math inline">\(A\)</span> be the set of all stream segment indices. We denote <span class="math inline">\(U_{i}\)</span>, a subset of <span class="math inline">\(A\)</span>, as the set of stream segments upstream of <span class="math inline">\(x_i\)</span>, including the <span class="math inline">\(i\)</span>th segment, and we denote <span class="math inline">\(U^{*}_{i}\)</span> as the set excluding the <span class="math inline">\(i\)</span>th segment. We denote <span class="math inline">\(D_{i}\)</span>, also a subset of <span class="math inline">\(A\)</span>, as the set of stream segments downstream of <span class="math inline">\(x_i\)</span>, including the <span class="math inline">\(i\)</span>th segment, and we denote <span class="math inline">\(D^{*}_{i}\)</span> as the set excluding the <span class="math inline">\(i\)</span>th segment. This notation make precise the definition of “flow-connected” (FC) for two locations, <span class="math inline">\(r_i\)</span> and <span class="math inline">\(s_j\)</span>, if <span class="math inline">\(U_i \cap U_j \neq \emptyset\)</span>, and they are “flow-unconnected” (FU) if <span class="math inline">\(U_i \cap U_j = \emptyset\)</span>. We can also define the set of stream segments “between” two FC locations, <span class="math inline">\(r_i \leq s_j\)</span>, exclusive of the <span class="math inline">\(i\)</span>th and <span class="math inline">\(j\)</span>th segments, as <span class="math inline">\(D^{*}_{j} \setminus D_i\)</span>. For point locations, we use <span class="math inline">\(\vee_s\)</span> to denote the network only upstream of point <span class="math inline">\(s\)</span>, including all branchings, and <span class="math inline">\(\wedge_s\)</span> to denote the network downstream of <span class="math inline">\(s\)</span> that follows flow only (i.e., it does not go downstream and then back upstream).</p>
+<p>Modeling covariance requires total stream distance between pairs of points, so for two FU locations we will use <span class="math inline">\(a\)</span> to indicate the shorter distance from one location to the nearest junction downstream that shares flow with the other location (<a href="topology-and-distance.html#fig:Fig3SegStream">2.1</a>), and we use <span class="math inline">\(b\)</span> to indicate the longer distance to the same junction. We use <span class="math inline">\(h\)</span> for the distance between two FC locations (Figure <a href="topology-and-distance.html#fig:Fig3SegStream">2.1</a>).</p>
+<div id="StreamsR" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Streams in R</h3>
+<p>The spatial data needed to fit a stream network model are non-trivial. Much of the spatial data editing, information generation, and formatting take place in ArcGIS using the Spatial Tools for the Analysis of River Systems <strong>STARS</strong> toolset <span class="citation">(Peterson and Ver Hoef <a href="#ref-Pete:Ver:STAR:2014">2014</a>)</span>. When this pre-processing is complete, a new directory is created to store the data, hereafter referred to as the <strong>.ssn</strong> directory, which can then be imported into <strong>R</strong>. These data include the feature geometry, attribute data, and topological relationships of each point and line data set, see Figure <a href="topology-and-distance.html#fig:FigdotSSNdirectory">2.2</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:FigdotSSNdirectory"></span>
+<img src="/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/jss984FigdotSSNdirectory.png" alt="The **.ssn** directory contains the spatial, attribute, and topological information needed to create a **SpatialStreamNetwork** object in **R**. The *.shp files are of stream reaches (edges.shp), observed points on the stream (site.shp), and prediction points on the stream (preds.shp)(optional). The *.dat files contain topological relationship information for each distinct network; in this example, there are 5 networks.." width="80%" />
+<p class="caption">
+Figure 2.2: The <strong>.ssn</strong> directory contains the spatial, attribute, and topological information needed to create a <strong>SpatialStreamNetwork</strong> object in <strong>R</strong>. The <em>.shp files are of stream reaches (edges.shp), observed points on the stream (site.shp), and prediction points on the stream (preds.shp)(optional). The </em>.dat files contain topological relationship information for each distinct network; in this example, there are 5 networks..
+</p>
+</div>
+<p>The <strong>.ssn</strong> directory will always contain two shapefiles: edges and sites, which contain the geometry and attribute information for the stream network and the observed data locations. Multiple comma-delimited text files containing the topological information for each stream network within the edges data set will also be
+included. Here, a network is defined as a set of connected, directed line segments that share a common junction somewhere downstream. Note that the naming conventions for these files are implemented by the
+<strong>STARS</strong> toolset and must be preserved. Multiple shapefiles representing the prediction locations may also be included in the <strong>.ssn</strong> directory; however, the naming conventions for these data sets will vary. <span class="citation">Peterson and Ver Hoef (<a href="#ref-Pete:Ver:STAR:2014">2014</a>)</span> provide a detailed description of the <strong>STARS</strong> toolset, the methods used to generate the <strong>.ssn</strong> directory, and data therein.</p>
+<p>The <strong>SpatialStreamNetwork</strong> class is an <strong>S4</strong> object (Figure <a href="topology-and-distance.html#fig:FigSSNclass">2.3</a>, which is the foundational spatial data class in the <strong>SSN</strong> package. Its structure adheres to the conventions for spatial data classes set out by <span class="citation">Bivand, Pebesma, and Gomez-Rubio (<a href="#ref-Biva:Pebe:Gome:appl:2008">2008</a>)</span>. Yet, the <strong>SpatialStreamNetwork</strong> is unique because it contains both point and line features within the same <strong>S4</strong> object. It directly extends class <strong>SpatialLinesDataFrame</strong>, with additional slots included to store the spatial point data <strong>SSNPoints</strong>, a matrix containing information about the network coordinates of each line segment <strong>network.line.coords</strong>, as well as a string representing the filepath to the <strong>.ssn</strong> directory. A new class, <strong>SSNPoint</strong>, has been defined and created to store spatial point data for observation and prediction locations. This class is similar to class <strong>SpatialPointsDataFrame</strong>, but is not a direct extension of it since common slot names contain the prefix “point.” An additional matrix containing network coordinates, <strong>network.point.coords</strong>, has also been included. The object <strong>SSNPoints</strong> is a list of class <strong>SSNPoints</strong> that stores objects of class <strong>SSNPoint</strong>. It also contains a slot named <strong>ID</strong>, which holds a string identifier for each <strong>SSNPoint</strong>
+object. This allows identification within the <strong>SpatialStreamNetwork</strong> object when multiple data sets of
+prediction sites are included.</p>
+<div class="figure" style="text-align: center"><span id="fig:FigSSNclass"></span>
+<img src="/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/jss984FigSSNclass.png" alt="The **SpatialStreamNetwork** class and slots; arrows with small heads show sub-class extensions and arrows with large heads show the inclusion of lists of objects." width="80%" />
+<p class="caption">
+Figure 2.3: The <strong>SpatialStreamNetwork</strong> class and slots; arrows with small heads show sub-class extensions and arrows with large heads show the inclusion of lists of objects.
+</p>
+</div>
+</div>
+</div>
+<div id="DualCoord" class="section level2">
+<h2><span class="header-section-number">2.2</span> Dual Coordinate Systems</h2>
+<p>While it is desirable to build models using stream distance, generating measures of distance is more complex in a SSN model than a model based on Euclidean distance. Stream network data have a dual spatial coordinate system because streams are embedded within the terrestrial landscape they flow through. As a result, points within a stream are located in 2-D space (geographical location), as well as within the network (topological location) (Figure <a href="topology-and-distance.html#fig:FigDual">2.4</a>. Although models based on either Euclidean distance <em>or</em> network distance may be simpler to implement, critical information about environmental or ecological processes and correlation structures may be lost when models do not adequately account for the dual coordinate system <span class="citation">(Schlosser and Angermeier <a href="#ref-Schl:Ange:spat:1995">1995</a>; Urban and Keitt <a href="#ref-Urba:Keit:land:2001">2001</a>; Fausch et al. <a href="#ref-Faus:Torg:Baxt:Li:land:2002">2002</a>; Benda et al. <a href="#ref-Bend:Poff:Mill:Dunn:netw:2004">2004</a>; Urban et al. <a href="#ref-Urba:Mino:Trem:Schi:grap:2009">2009</a>; Dale and Fortin <a href="#ref-Dale:Fort:from:2010">2010</a>; Peterson et al. <a href="#ref-Pete:Ver:Isaa:stre:2013">2013</a>)</span>. Therefore, we will promote combining classical geostatistical models with those developed for stream networks. The details are given below. First, we give some preliminaries on notation and computing distance within networks, as these are less familiar than typical 2-D coordinate systems and computing Euclidean distance.</p>
+<div class="figure" style="text-align: center"><span id="fig:FigDual"></span>
+<img src="/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/FigDual.png" alt="Locations within a stream network are characterized by a dual spatial coordinate system. Three locations are given by solid and open circles and a grey square. In (a) and (b) the 3 locations have exactly the same 2-D coordinates, although their positions (and distances from each other) within the two stream networks are different. In (a) and (c) the 3 locations have exactly the same positions (and distances from each other) within the network, although their 2-D coordinates are different." width="70%" />
+<p class="caption">
+Figure 2.4: Locations within a stream network are characterized by a dual spatial coordinate system. Three locations are given by solid and open circles and a grey square. In (a) and (b) the 3 locations have exactly the same 2-D coordinates, although their positions (and distances from each other) within the two stream networks are different. In (a) and (c) the 3 locations have exactly the same positions (and distances from each other) within the network, although their 2-D coordinates are different.
+</p>
+</div>
+</div>
+<div id="StreamDist" class="section level2">
+<h2><span class="header-section-number">2.3</span> Stream Distance</h2>
+<p>In general, a straightforward approach for keeping track of network structure in a directed graph, such as a stream network, is to label segments (we adopt the graph terminology “edge”). A ForwardStar data structure <span class="citation">(Ahuja, Magnanti, and Orlin <a href="#ref-Ahuj:Magn:Orli:netw:1993">1993</a>)</span> is commonly used to keep track of which edge leads to another edge. This data structure is based on a set of “to-from” tables, which store information about the coincidence of features and can be searched to generate new spatial information. However, traversing to-from tables generated from a large stream network is computationally intensive, especially in an interpreted programming language like <strong>R</strong>. As an alternative, we developed a system based on a binary identifier (ID), which is used to rapidly assess flow-connectivity and stream distance between any two locations on the dendritic stream network.</p>
+<p>The process of assigning binary IDs is conceptually simple. First, the outlet edge (i.e., the most downstream edge in the network) is identified and assigned a binary ID equal to 1 (Figure <a href="topology-and-distance.html#fig:FigBinaryID">2.5</a>). The information stored in the to-from table is then used to identify edges that are directly upstream from the outlet edge. Binary IDs are assigned to the upstream edge(s) by arbitrarily appending a 0 or 1 to the downstream binary ID. For example, binary IDs 10 and 11 are directly upstream from binary ID 1 in Figure <a href="topology-and-distance.html#fig:FigBinaryID">2.5</a>. This process of moving upstream and assigning binary IDs continues until every edge in the stream network has been assigned a binary ID. Note that the binary ID is only unique within a stream network. Also, the binary ID is not the binary number that is equivalent to the segment number. Stream segments are numbered arbitrarily and sequentially, but binary IDs actually represent the branching structure.</p>
+<div class="figure" style="text-align: center"><span id="fig:FigBinaryID"></span>
+<img src="/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/FigBinaryID.png" alt="A binary identifier (ID) is assigned to each segment in a stream network.  Use of binary IDs allows rapid assessment of flow-connectedness, distance to junctions, and stream distance among points on the network." width="70%" />
+<p class="caption">
+Figure 2.5: A binary identifier (ID) is assigned to each segment in a stream network. Use of binary IDs allows rapid assessment of flow-connectedness, distance to junctions, and stream distance among points on the network.
+</p>
+</div>
+<p>The binary IDs are useful because they provide a way to rapidly determine whether locations have an FC or FU relationship. Two locations are considered FC when water flows from an upstream location to a downstream location. In contrast, two locations are FU when they reside on the same network, but water does not flow between them. In Figure <a href="topology-and-distance.html#fig:FigBinaryID">2.5</a>, site <span class="math inline">\(r_1\)</span> resides on the most downstream segment in the network (segment 1). Thus, the binary ID for <span class="math inline">\(r_1\)</span> is completely nested within the binary ID for the edge containing site <span class="math inline">\(s_3\)</span> (“1” is nested within “110”), which indicates that the two locations are FC. If the binary IDs for two edges are not nested, as is the case for <span class="math inline">\(s_3\)</span> and <span class="math inline">\(t_6\)</span> (“110” is not nested within “1111”), the two locations are FU. In addition, the binary IDs for FU locations contain information about the closest common downstream location. As an example, the most common downstream junction between sites <span class="math inline">\(s_3\)</span> and <span class="math inline">\(t_6\)</span> is “11” (Figure <a href="topology-and-distance.html#fig:FigBinaryID">2.5</a>) and so “11” is the binary ID of the stream segment where sites <span class="math inline">\(s_3\)</span> and <span class="math inline">\(t_6\)</span> diverge.</p>
+<p>One of the advantages of SSN models is that they can be used to represent both FC and FU relationships within a stream network. In order to do this, information about directional relationships must be preserved within an asymmetric distance matrix, which contains the downstream-only distance between each pair of locations. Four pieces of spatial information are generated using the STARS toolset and subsequently used to calculate the downstream-only stream distance matrix: 1) the network ID, 2) the binary IDs, 3) the upstream distance from the network outlet to the most upstream location on each edge, <span class="math inline">\(u_i\)</span> and 4) the upstream distance from the outlet to each location, <span class="math inline">\(x_i\)</span>. As mentioned previously, the binary IDs are only unique within a network and so the first step is to determine whether two locations reside on the same network using the network IDs. When this is true, the binary IDs are used to determine whether two locations are FC or FU. If they are FU, the downstream-only distance between <span class="math inline">\(t_3\)</span> and <span class="math inline">\(s_2\)</span> (Figure <a href="topology-and-distance.html#fig:Fig3SegStream">2.1</a>), <span class="math inline">\(a\)</span>, is <span class="math inline">\(t_3 - u_1\)</span>, while the downstream-only distance between <span class="math inline">\(s_2\)</span> and <span class="math inline">\(t_3\)</span>, <span class="math inline">\(b\)</span>, is <span class="math inline">\(s_2 - u_1\)</span>. For FC sites, again determined by the binary IDs, the downstream-only distance from <span class="math inline">\(s_2\)</span> to <span class="math inline">\(r_1\)</span> is <span class="math inline">\(s_2-r_1&gt;0\)</span>, while <span class="math inline">\(r_1-s_2=0\)</span>. In fact, for any set of <span class="math inline">\(n\)</span> locations, the directional distances can be stored in an asymmetric <span class="math inline">\(n \times n\)</span> matrix, which stores the distance to the common junction. In addition, the total stream distance between locations is generated by adding the transpose of the <span class="math inline">\(n \times n\)</span> matrix, to itself. Thus, everything required to construct the models described below is contained in this asymmetric matrix.</p>
+</div>
+<div id="additive-function" class="section level2">
+<h2><span class="header-section-number">2.4</span> Additive Function</h2>
+<p>Let <span class="math inline">\(\Omega(x)\)</span> be an additive function on a stream network; that is, <span class="math inline">\(\Omega(x)\)</span> is constant within a stream segment, but then <span class="math inline">\(\Omega(x)\)</span> is the sum of each segment’s value when two segments join at a junction. (Figure <a href="topology-and-distance.html#fig:FigAdditiveFunction">2.6</a>).</p>
+<div class="figure" style="text-align: center"><span id="fig:FigAdditiveFunction"></span>
+<img src="/media/jay/Hitachi2GB/00NMML/ActiveBooks/SpatialStreamNetworks/_bookdown_files/SpatStatStreamNet_files/figure-html/FigAdditiveFunction.png" alt="The additive function." width="70%" />
+<p class="caption">
+Figure 2.6: The additive function.
+</p>
+</div>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Pete:Ver:STAR:2014">
+<p>Peterson, Erin E, and Ver HoefJay M. 2014. “STARS: An Arcgis Toolset Used to Calculate the Spatial Information Needed to Fit Spatial Statistical Models to Stream Network Data.” <em>Journal of Statisticla Software</em> 56 (2): 1–17.</p>
+</div>
+<div id="ref-Biva:Pebe:Gome:appl:2008">
+<p>Bivand, Roger S., Edzer J. Pebesma, and Virgilio Gomez-Rubio. 2008. <em>Applied Spatial Data Analysis with R</em>. Springer, NY. <a href="http://www.asdar-book.org/">http://www.asdar-book.org/</a>.</p>
+</div>
+<div id="ref-Schl:Ange:spat:1995">
+<p>Schlosser, Isaac J, and PL Angermeier. 1995. “Spatial Variation in Demographic Processes of Lotic Fishes: Conceptual Models, Empirical Evidence, and Implications for Conservation.” <em>American Fisheries Society Symposium</em> 17: 360–70.</p>
+</div>
+<div id="ref-Urba:Keit:land:2001">
+<p>Urban, Dean, and Timothy Keitt. 2001. “Landscape Connectivity: A Graph-Theoretic Perspective.” <em>Ecology</em> 82 (5): 1205–18.</p>
+</div>
+<div id="ref-Faus:Torg:Baxt:Li:land:2002">
+<p>Fausch, Kurt D, Christian E Torgersen, Colden V Baxter, and Hiram W Li. 2002. “Landscapes to Riverscapes: Bridging the Gap Between Research and Conservation of Stream Fishes a Continuous View of the River Is Needed to Understand How Processes Interacting Among Scales Set the Context for Stream Fishes and Their Habitat.” <em>BioScience</em> 52 (6): 483–98.</p>
+</div>
+<div id="ref-Bend:Poff:Mill:Dunn:netw:2004">
+<p>Benda, Lee, N Leroy Poff, Daniel Miller, Thomas Dunne, Gordon Reeves, George Pess, and Michael Pollock. 2004. “The Network Dynamics Hypothesis: How Channel Networks Structure Riverine Habitats.” <em>BioScience</em> 54 (5): 413–27.</p>
+</div>
+<div id="ref-Urba:Mino:Trem:Schi:grap:2009">
+<p>Urban, Dean L, Emily S Minor, Eric A Treml, and Robert S Schick. 2009. “Graph Models of Habitat Mosaics.” <em>Ecology Letters</em> 12 (3): 260–73.</p>
+</div>
+<div id="ref-Dale:Fort:from:2010">
+<p>Dale, MRT, and M-J Fortin. 2010. “From Graphs to Spatial Graphs.” <em>Annual Review of Ecology, Evolution, and Systematics</em> 41 (1): 21.</p>
+</div>
+<div id="ref-Pete:Ver:Isaa:stre:2013">
+<p>Peterson, E. E., Ver HoefJ. M., D. J. Isaak, J. A. Falke, M-J Fortin, C. Jordan, K. McNyset, et al. 2013. “Stream Networks in Space: Concepts, Models, and Synthesis.” <em>Ecology Letters</em> 16: 707–19. <a href="https://doi.org/10.1111/ele.12084.">https://doi.org/10.1111/ele.12084.</a></p>
+</div>
+<div id="ref-Ahuj:Magn:Orli:netw:1993">
+<p>Ahuja, R.K., T.L. Magnanti, and J.B Orlin. 1993. <em>Network Flows: Theory, Algorithms, and Applications</em>. New Jersey: Prentice-Hall.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ChapMA.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-topology-distance.Rmd",
+"text": "Edit"
+},
+"download": ["SpatStatStreamNet.pdf", "SpatStatStreamNet.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
