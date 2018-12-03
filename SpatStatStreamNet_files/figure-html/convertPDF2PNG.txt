@@ -1,0 +1,1 @@
+convert -density 200 input.pdf -quality 100 output.png
